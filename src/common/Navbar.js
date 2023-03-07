@@ -14,10 +14,15 @@ export default function Navbar() {
       <UserContainer>
         <ion-icon
           onClick={toggleDropdown}
-          name={isDropdownOpen? "chevron-up-outline": "chevron-down-outline" }          
+          name={!isDropdownOpen ? "chevron-down-outline" : "chevron-up-outline"}
         />
         <UserImg src="https://www.w3schools.com/howto/img_avatar.png" />
       </UserContainer>
+      {isDropdownOpen && (
+        <Dropdown>
+          <p>Log Out</p>
+        </Dropdown>
+      )}
     </NavBarContainer>
   );
 }
@@ -31,6 +36,7 @@ const NavBarContainer = styled.div`
   justify-content: space-between;
   padding-left: 28px;
   padding-right: 20px;
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -63,5 +69,28 @@ const UserContainer = styled.div`
 
   ion-icon:hover {
     cursor: pointer;
+  }
+`;
+
+const Dropdown = styled.div`
+  position: absolute;
+  top: 72px;
+  right: -15px;
+  width: 150px;
+  height: 47px;
+  background-color: #151515;
+  border-radius: 0px 0px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    color: #ffffff;
   }
 `;
