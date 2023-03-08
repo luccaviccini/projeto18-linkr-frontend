@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import Searchbar from "./Searchbar";
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,6 +12,7 @@ export default function Navbar() {
   return (
     <NavBarContainer>
       <Title>linkr</Title>
+      <Searchbar/>
       <UserContainer>
         <ion-icon
           onClick={toggleDropdown}
