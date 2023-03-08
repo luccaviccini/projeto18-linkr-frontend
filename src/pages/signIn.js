@@ -30,7 +30,7 @@ export default function Navbar() {
   function respondeu(response){
   
     setUser(response.data.token)
-    navigate("/home")
+    navigate("/timeline")
      
   }
  
