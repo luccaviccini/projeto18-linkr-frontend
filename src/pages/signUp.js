@@ -1,15 +1,37 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { Link} from "react-router-dom";
+import { useState , useContext} from "react";
+import { Link , useNavigate} from "react-router-dom";
+import UserContext from "../context/UserContext";
+import axios from "axios";
 
 export default function Navbar() {
-
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  const[info,setinfo]=useState(null)
   const[email,setemail]=useState('')
   const[senha,setsenha]=useState('')
   const[username,setusername]=useState('')
   const[pictureurl,setpictureurl]=useState('')
 
- 
+  function Cadastrar(){
+    const cadastro = axios.post("http://localhost:5000/sign-up",
+    {
+        
+        email: email,
+        password: senha,
+        username: username,
+        pictureUrl: pictureurl,
+        
+    }
+    )
+    cadastro.then(deucerto)
+}
+
+function deucerto(response){
+    setinfo(response.data)
+    navigate("/")
+}
+
 
   return (
     <NavBarContainer>
@@ -32,7 +54,7 @@ the best links on the web</h2>
             <input data-test="picture-url" onChange={event => setpictureurl(event.target.value)} placeholder="picture url"></input>
           </Input>
           <Botao>
-            <button data-test="sign-up-btn">Sign Up</button>
+            <button data-test="sign-up-btn" onClick={Cadastrar}>Sign Up</button>
           </Botao>
           <Link  data-test="login-link" to="/">
             <Cadastro>Switch back to log in</Cadastro>
