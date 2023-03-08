@@ -22,7 +22,7 @@ export default function Navbar() {
     }
     )
     logando.then(respondeu)
-    logando.catch((response)=>alert(response.data.message))
+    logando.catch((response)=>(response == "AxiosError: Request failed with status code 401")? alert("email ou senha incorretos"):(response == "AxiosError: Request failed with status code 422")?alert("Preencha todos os campos!"):"")
     
    
   }
