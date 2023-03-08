@@ -25,6 +25,7 @@ export default function Navbar() {
     }
     )
     cadastro.then(deucerto)
+    cadastro.catch((response)=>(response == "AxiosError: Request failed with status code 409")? alert("email já cadastrado"):"")
 }
 
 function deucerto(response){
