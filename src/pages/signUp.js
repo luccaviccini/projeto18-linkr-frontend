@@ -36,11 +36,13 @@ function deucerto(response){
 
   return (
     <NavBarContainer>
+      <Box>
       <Title>
-        <h1>linkr</h1>
-        <h2>save, share and discover
-the best links on the web</h2>
+        <H1>linkr</H1>
+        <H2>save, share and discover
+the best links on the web</H2>
       </Title>
+      </Box>
       <Sigin>
           <Input>
             <input data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
@@ -66,11 +68,13 @@ the best links on the web</h2>
   );
 }
 
+const Box = styled.div`
+
+`
+
 const Sigin = styled.div`
-position: absolute;
-right: 0;
+ height: 100vh;
  width: 40vw;
-height: 100vw;
  display:flex;
     flex-direction: column;
     align-items:center;
@@ -117,43 +121,42 @@ margin-bottom: 30px;
 `;
 
 const NavBarContainer = styled.div`
-
-  width: 100vw;
-  height: 100vw;
- 
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-left: 28px;
-  padding-right: 20px;
-  position: relative;
+  justify-content: space-between;
+  background-color: red;
+  height: 100vh;
+ width: 100vw;
 `;
 
-const Title = styled.h1`
+const Title = styled.div`
+ height: 100vh;
+ width: 70vw;
 display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-width: 70vw;
-height: 100%;
-position: absolute;
 left: 0;
 background-color: #151515;
   font-family: "Passion One";
   font-style: normal;
   font-weight: 700;
   font-size: 60px;
-  line-height: 50px;
-  letter-spacing: 0.05em;
+
   color: #ffffff;
-  h1{
-    font-size: 106px;
-  }
-  h2{
-    width: 442px;
-    font-size: 43px;
-  }
+
 `;
+
+const H1 = styled.div`
+font-size: 106px;
+line-height: 116px;
+letter-spacing: 0.05em;
+`
+const H2 = styled.div`
+ width: 442px;
+ line-height: 63px;
+    font-size: 43px;
+`
 
 
 
