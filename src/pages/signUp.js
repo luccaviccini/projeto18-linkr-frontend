@@ -14,7 +14,7 @@ export default function Navbar() {
   const[pictureurl,setpictureurl]=useState('')
 
   function Cadastrar(){
-    const cadastro = axios.post("http://localhost:5000/sign-up",
+    const cadastro = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`,
     {
         
         email: email,
