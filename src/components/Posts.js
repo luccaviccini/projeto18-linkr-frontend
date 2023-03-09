@@ -10,7 +10,7 @@ export default function Post() {
   const {User} = useContext(UserContext);
   // Like dado?
   async function darLike(){
-    const tokenDoUsuario = User.token;
+    //const tokenDoUsuario = User.token;
     //await axios.put('', {header:{ Autorization: "Bearer "+tokenDoUsuario}})
     //.catch((err) => {console.log(err)});
     //await axios.get('') // pegar número de likes do post do servidor
