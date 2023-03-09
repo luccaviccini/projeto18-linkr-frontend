@@ -28,8 +28,8 @@ export default function Navbar() {
   }
 
   function respondeu(response){
-    localStorage.setItem('token',response.data.token)
-    setUser(response.data.token)
+    localStorage.setItem('token',response.data)
+    setUser(response.data)
     navigate("/timeline")
      
   }
