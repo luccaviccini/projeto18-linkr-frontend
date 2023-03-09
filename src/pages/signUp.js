@@ -12,8 +12,10 @@ export default function Navbar() {
   const[senha,setsenha]=useState('')
   const[username,setusername]=useState('')
   const[pictureurl,setpictureurl]=useState('')
+  const[truefalse,settruefalse]=useState(false)
 
   function Cadastrar(){
+    settruefalse(true)
     if(email !== "" && senha!==""&& username !== "" && pictureurl !== ""){
     const cadastro = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`,
     {
@@ -35,6 +37,7 @@ export default function Navbar() {
 function deucerto(response){
     setinfo(response.data)
     navigate("/")
+    settruefalse(false)
 }
 
 
