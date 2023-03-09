@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Post from "./Posts.js";
 import NewPost from "./NewPost.js";
-
+import Trending from "./Trending.js";
 export default function Body() {
   return (
     <BodyContainer>
@@ -12,7 +12,7 @@ export default function Body() {
         <Post />
        
       </Left>
-      <Sidebar />
+      <Trending />
     </BodyContainer>
   );
 }
@@ -50,18 +50,3 @@ const Left = styled.div`
   width: 100%;
   max-width: 611px; 
 `;
-const Sidebar = styled.div`
-  width: 301px;
-  height: 406px;
-  background: #171717;
-  border-radius: 16px;
-  margin-top: 105px;
-
-    @media (max-width: 937px) {
-        display: none;
-    }
-`;
-
-
-
-
