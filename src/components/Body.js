@@ -1,16 +1,16 @@
 import styled from "styled-components";
-
+import Post from "./Posts.js";
+import NewPost from "./NewPost.js";
+import Trending from "./Trending.js";
 export default function Body() {
   return (
     <BodyContainer>
       <Left>
         <Title>timeline</Title>
-        <NewPost />
+        <NewPost/>        
         <Post />
-        <Post />
-       
       </Left>
-      <Sidebar />
+      <Trending />
     </BodyContainer>
   );
 }
@@ -47,42 +47,4 @@ const BodyContainer = styled.div`
 const Left = styled.div`
   width: 100%;
   max-width: 611px; 
-`;
-const Sidebar = styled.div`
-  width: 301px;
-  height: 406px;
-  background: #171717;
-  border-radius: 16px;
-  margin-top: 105px;
-
-    @media (max-width: 937px) {
-        display: none;
-    }
-`;
-
-const NewPost = styled.div`
-  width: 100%;  
-  max-width: 611px;
-  height: 209px;
-  background: white;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
-
-  @media (max-width: 937px) {
-        border-radius: 0;
-    }
-`;
-
-const Post = styled.div`
-  width: 100%;
-  height: 100%;
-  max-width: 611px;
-  max-height: 276px;
-  background: #171717;
-  border-radius: 16px;
-  margin: 29px 0;
-
-  @media (max-width: 937px) {
-        border-radius: 0;
-    }
 `;
