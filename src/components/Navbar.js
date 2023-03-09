@@ -1,14 +1,19 @@
 import styled from "styled-components";
 import { useState } from "react";
 import Searchbar from "./Searchbar";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+  const navigate = useNavigate();
   function toggleDropdown() {
     setIsDropdownOpen(!isDropdownOpen);
   }
 
+  function logout(){
+    localStorage.removeItem("token");
+    navigate("/")
+  }
   return (
     <NavBarContainer>
       <Title>linkr</Title>
@@ -21,7 +26,7 @@ export default function Navbar() {
         <UserImg src="https://www.w3schools.com/howto/img_avatar.png" />
       </UserContainer>
       {isDropdownOpen && (
-        <Dropdown>
+        <Dropdown onClick={logout}>
           <p>Log Out</p>
         </Dropdown>
       )}
