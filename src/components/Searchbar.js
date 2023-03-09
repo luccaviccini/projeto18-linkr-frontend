@@ -1,13 +1,50 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { BsSearch } from "react-icons/bs";
+import axios from "axios";
+import React from "react";
 
 export default function Searchbar(){
 
-    function handleChange(event) {
-        console.log(event.target.value);
+    const [searchResult, setSearchResult] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [userSearched, setUserSearched] = useState('');
+    const { User } = useContext(UserContext);
+    const token = User.token;
+
+    const URL = "http://localhost:5000";
+
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
     }
+
+    function handleSearch(e) {
+		setUserSearched(e.target.value);
+	}
+
+	useEffect(() => {
+
+		if (userSearched.length >= 3) {
+
+            const promise = axios.get(`${URL}/users?value=${userSearched}`, config);
+			
+			promise
+				.then((res) => {
+					setSearchResult(res.data);
+					setIsSearching(true);
+				})
+				.catch((err) => alert(err.response.data));
+		}
+
+		if (userSearched.length < 3) {
+			setIsSearching(false);
+			setSearchResult([]);
+		}
+	}, [userSearched, isSearching]);
+
 
     return(
         <SearchContainer>
@@ -16,14 +53,32 @@ export default function Searchbar(){
                     minLength={3}
                     placeholder="Search for people..."
                     debounceTimeout={300}
-                    onChange={handleChange}
-                />
+                    onChange={handleSearch}
+                ></DebounceInput>
                 <BsSearch color="#C6C6C6" size='20px'></BsSearch>
             </Search>
+            <UsersContainer isSearching={isSearching}>
+				{searchResult.length === 0 ? (
+					<span>Sorry, there are no results for this search.</span>
+				) : (
+                    searchResult.map((e, index) => <Result 
+                        name={e.name} 
+                        imgProfile={e.picture_url} 
+                        userId={e.id} 
+                        key={index} 
+                        id={id}
+						setIsSearching={setIsSearching} 
+                        />)
+				)}
+			</UsersContainer>
         </SearchContainer>
     );
 
-}
+ }
+
+
+
+
 
 const SearchContainer = styled.div`
     display: flex;
@@ -59,3 +114,42 @@ const Search = styled.div`
 
 `;
 
+const UsersContainer = styled.section`
+	display: ${(props) => (props.isSearching ? 'flex' : 'none')};
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	z-index: -1;
+	width: 100%;
+	height: auto;
+	padding: 60px 0 23px 0;
+	background-color: #e7e7e7;
+	border-radius: 8px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-shadow: 0 8px 10px 0 rgba(255, 255, 255, 0.2);
+	span {
+		font-size: 20px;
+		font-weight: 300;
+		color: #707070;
+	}
+`;
+
+const Result = styled.div`
+    display: flex;
+    align-items: center;
+    height: 60px;
+    img{
+        height: 39px;
+        width: 39px;   
+        border-radius: 50%;
+        object-fit: cover;
+        margin:10px
+    }
+    p{
+        font-family: 'Lato';
+        font-size:19px;
+        line-height: 23px;
+    }
+    `;
