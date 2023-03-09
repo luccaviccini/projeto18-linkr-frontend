@@ -15,7 +15,7 @@ export default function Navbar() {
 
   function logar (){
   
-    const logando = axios.post("http://localhost:5000/sign-in",
+    const logando = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`,
     {
       email: email,
       password: senha

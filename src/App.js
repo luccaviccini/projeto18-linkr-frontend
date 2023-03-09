@@ -6,7 +6,9 @@ import SignUp from "./pages/signUp.js";
 import { useState } from "react";
 
 
+
 function App() {
+
   const token = localStorage.getItem('token')
   console.log(token)
   const [User, setUser] = useState(token);
