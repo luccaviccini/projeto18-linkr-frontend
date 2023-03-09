@@ -1,15 +1,30 @@
 import styled from "styled-components";
-import { AiOutlineHeart } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
+import { useState, useContext } from "react";
+import axios from "axios";
+import UserContext from "../context/UserContext";
 
 export default function Post() {
+  const [like, setLike] = useState(false);
+  const [numLikePost, setNumLikePost] = useState(0);
+  const {User} = useContext(UserContext);
+  // Like dado?
+  async function darLike(){
+    const tokenDoUsuario = User.token;
+    //await axios.put('', {header:{ Autorization: "Bearer "+tokenDoUsuario}})
+    //.catch((err) => {console.log(err)});
+    //await axios.get('') // pegar número de likes do post do servidor
+    //.then((response) => {setNumLikePost(response.data)}); //verificar qual Key para os valor de likes
+    setLike(!like)
+  }
 
   return (
     <PostContainer>
       <InfoSection>
         <UserImg src="https://www.w3schools.com/howto/img_avatar.png" />
         <Likes>
-          <AiOutlineHeart />
-          1000
+          {(!like) ? <AiOutlineHeart onClick={darLike}/> : <AiFillHeart style={{color:"red"}} onClick={darLike}/>}
+          {numLikePost}
         </Likes>
       </InfoSection>
       <ContentSection>

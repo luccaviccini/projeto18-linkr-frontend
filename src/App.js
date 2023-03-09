@@ -7,7 +7,7 @@ import { useState } from "react";
 
 
 function App() {
-  const [User, setUser] = useState({});
+  const [User, setUser] = useState({token: "abc"});
   return (
     <UserContext.Provider value={{User, setUser}}>
       <BrowserRouter>

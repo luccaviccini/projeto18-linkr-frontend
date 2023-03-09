@@ -9,8 +9,6 @@ export default function Body() {
         <Title>timeline</Title>
         <NewPost/>        
         <Post />
-        <Post />
-       
       </Left>
       <Trending />
     </BodyContainer>
