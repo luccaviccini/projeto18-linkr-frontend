@@ -38,7 +38,11 @@ const NavBarContainer = styled.div`
   justify-content: space-between;
   padding-left: 28px;
   padding-right: 20px;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2
+  
 `;
 
 const Title = styled.h1`
