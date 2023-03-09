@@ -7,14 +7,20 @@ import { useState } from "react";
 
 
 function App() {
-  const [User, setUser] = useState({});
+  const token = localStorage.getItem('token')
+  console.log(token)
+  const [User, setUser] = useState(token);
+  
+
+
+  console.log(User)
   return (
     <UserContext.Provider value={{User, setUser}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />}></Route>
           <Route path="/sign-up" element={<SignUp />}></Route>
-          <Route path="/home" element={<Home />} />
+          <Route path="/timeline" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
