@@ -14,6 +14,7 @@ export default function Navbar() {
   const[pictureurl,setpictureurl]=useState('')
 
   function Cadastrar(){
+    if(email !== "" && senha!==""&& username !== "" && pictureurl !== ""){
     const cadastro = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`,
     {
         
@@ -26,7 +27,10 @@ export default function Navbar() {
     )
     cadastro.then(deucerto)
     cadastro.catch((response)=>(response == "AxiosError: Request failed with status code 409")? alert("email já cadastrado"):(response == "AxiosError: Request failed with status code 422")?alert("Preencha todos os campos!"):"")
+}else {
+  alert("Preencha todos os campos !")
 }
+  }
 
 function deucerto(response){
     setinfo(response.data)
