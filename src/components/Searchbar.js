@@ -1,9 +1,32 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { DebounceInput } from "react-debounce-input";
 import { BsSearch } from "react-icons/bs";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import React from "react";
+import UserContext from "../context/UserContext";
+
+
+
+function Results({ name, imgProfile, userId, setIsSearching }) {
+    
+    const navigate = useNavigate();
+
+    function goToProfile(id) {
+
+        setIsSearching(false);
+
+        navigate(`/user/${id}`);
+    }
+
+    return (
+        <Result onClick={() => goToProfile(userId)}>
+            <img src={imgProfile} alt='profile' />
+            <p>{name}</p>
+        </Result>
+    )
+}
 
 export default function Searchbar(){
 
@@ -11,15 +34,15 @@ export default function Searchbar(){
     const [isSearching, setIsSearching] = useState(false);
     const [userSearched, setUserSearched] = useState('');
     const { User } = useContext(UserContext);
-    const token = User.token;
+    //const token = User.token;
 
     const URL = "http://localhost:5000";
 
-    const config = {
+    /*const config = {
         headers: {
             "Authorization": `Bearer ${token}`
         }
-    }
+    }*/
 
     function handleSearch(e) {
 		setUserSearched(e.target.value);
@@ -29,14 +52,16 @@ export default function Searchbar(){
 
 		if (userSearched.length >= 3) {
 
-            const promise = axios.get(`${URL}/users?value=${userSearched}`, config);
+
+            const promise = axios.get(`${URL}/users?value=${userSearched}`);
 			
 			promise
 				.then((res) => {
 					setSearchResult(res.data);
 					setIsSearching(true);
+                    console.log(res.data);
 				})
-				.catch((err) => alert(err.response.data));
+				.catch((err) => console.log(err.response.data));
 		}
 
 		if (userSearched.length < 3) {
@@ -61,14 +86,13 @@ export default function Searchbar(){
 				{searchResult.length === 0 ? (
 					<span>Sorry, there are no results for this search.</span>
 				) : (
-                    searchResult.map((e, index) => <Result 
-                        name={e.name} 
-                        imgProfile={e.picture_url} 
+                    searchResult.map((e, index) => (<Results 
+                        name={e.username} 
+                        imgProfile={e.pictureUrl} 
                         userId={e.id} 
                         key={index} 
-                        id={id}
-						setIsSearching={setIsSearching} 
-                        />)
+						setIsSearching={setIsSearching}
+                        />))
 				)}
 			</UsersContainer>
         </SearchContainer>
@@ -117,7 +141,6 @@ const Search = styled.div`
 const UsersContainer = styled.section`
 	display: ${(props) => (props.isSearching ? 'flex' : 'none')};
 	flex-direction: column;
-	align-items: center;
 	gap: 16px;
 	z-index: -1;
 	width: 100%;
@@ -125,10 +148,6 @@ const UsersContainer = styled.section`
 	padding: 60px 0 23px 0;
 	background-color: #e7e7e7;
 	border-radius: 8px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	box-shadow: 0 8px 10px 0 rgba(255, 255, 255, 0.2);
 	span {
 		font-size: 20px;
 		font-weight: 300;

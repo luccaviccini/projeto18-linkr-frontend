@@ -4,6 +4,7 @@ import Home from "./pages/HomePage";
 import SignIn from "./pages/signIn.js";
 import SignUp from "./pages/signUp.js";
 import { useState } from "react";
+import UserPage from "./pages/UserPage";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<SignIn />}></Route>
           <Route path="/sign-up" element={<SignUp />}></Route>
           <Route path="/home" element={<Home />} />
+          <Route path="/user/:id" element={<UserPage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
