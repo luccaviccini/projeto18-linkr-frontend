@@ -9,16 +9,16 @@ import UserPage from "./pages/UserPage";
 
 
 function App() {
+  const storedUserData = localStorage.getItem('userData');
+  const [userData, setUserData] = useState(storedUserData);
 
-  const token = localStorage.getItem('token')
-  console.log(token)
-  const [User, setUser] = useState(token);
-  
+  const updateUserData = (newUserData) => {
+    localStorage.setItem('userData', newUserData);
+    setUserData(newUserData);
+  };
 
-
-  console.log(User)
   return (
-    <UserContext.Provider value={{User, setUser}}>
+    <UserContext.Provider value={{ userData, updateUserData }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />}></Route>
@@ -28,9 +28,8 @@ function App() {
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
-
-    
   );
 }
 
 export default App;
+
