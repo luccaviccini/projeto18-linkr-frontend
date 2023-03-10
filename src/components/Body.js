@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Post from "./Posts.js";
+import Post from "./Post.js";
 import NewPost from "./NewPost.js";
 import Trending from "./Trending.js";
 export default function Body() {
