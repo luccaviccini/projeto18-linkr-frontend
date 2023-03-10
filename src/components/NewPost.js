@@ -28,7 +28,7 @@ export default function NewPost() {
 
     axios
       .post(
-        "http://localhost:5000/timeline",
+        `${process.env.REACT_APP_API_URL}/timeline`,
         body,
         createConfig(userData.token)
       )
