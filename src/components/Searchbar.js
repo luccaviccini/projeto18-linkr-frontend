@@ -33,17 +33,14 @@ export default function Searchbar(){
     const [searchResult, setSearchResult] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [userSearched, setUserSearched] = useState('');
-    const { User } = useContext(UserContext);
-    const token = User.token;
-
-    console.log("Este é o token");
-    console.log(token);
+    const { userData } = useContext(UserContext);
+    const token = userData.token;
 
     const URL = "http://localhost:5000";
 
     const config = {
         headers: {
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${userData.token}`
         }
     }
 

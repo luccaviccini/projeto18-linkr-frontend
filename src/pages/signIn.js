@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
-//process.env.REACT_APP_API_URL
 import Loading from "../components/Loading";
 
 export default function Navbar() {

@@ -8,16 +8,16 @@ import PostUserSearched from "./PostsUserPage";
 import Trending from "./Trending.js";
 
 export default function BodyUserPage() {
-  const [userData, setUserData] = useState();
-  const { User } = useContext(UserContext);
-  const token = User.token;
+  const [userDataBank, setUserDataBank] = useState();
+  const { userData } = useContext(UserContext);
+
   let { id } = useParams();
 
-  const URL = "http://localhost:5000";
+ 
 
   const config ={
     headers:{
-      Authorization: `Bearer ${token}` 
+      Authorization: `Bearer ${userData.token}` 
     }
   }
 
@@ -26,17 +26,17 @@ export default function BodyUserPage() {
   }, [id]);
 
   function getPosts() {
-    const promise = axios.get(`${URL}/user/${id}`,config);
+    const promise = axios.get(`${process.env.REACT_APP_API_URL}/user/${id}`,config);
 
     promise
       .then((res) => {
         console.log(res.data);
-        setUserData(res.data);
+        setUserDataBank(res.data);
       })
       .catch(error =>console.log(error.response.data))
   }
 
-  if (!userData) {
+  if (!userDataBank) {
     return <div>Loading...</div>
   }
 
@@ -48,15 +48,15 @@ export default function BodyUserPage() {
       <Left>
         <Head>
           <div>
-            <img src={userData.pictureUrl} alt='perfil'></img>
-            <h1>{userData.username}'s posts</h1>
+            <img src={userDataBank.pictureUrl} alt='perfil'></img>
+            <h1>{userDataBank.username}'s posts</h1>
           </div> 
         </Head> 
-        {userData.posts && userData.posts.length === 0?<p>Nothing yet</p>: 
-          userData.posts.map((post, index) => (
+        {userDataBank.posts && userDataBank.posts.length === 0?<p>Nothing yet</p>: 
+          userDataBank.posts.map((post, index) => (
             <PostUserSearched 
-              author={userData.username} // pass username as prop
-              userImg={userData.pictureUrl} 
+              author={userDataBank.username} // pass username as prop
+              userImg={userDataBank.pictureUrl} 
               userId={id} 
               key={index}
               description={post.description}
