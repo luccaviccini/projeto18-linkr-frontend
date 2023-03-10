@@ -101,5 +101,12 @@ const Dropdown = styled.div`
     line-height: 20px;
     letter-spacing: 0.05em;
     color: #ffffff;
+
+    &:hover {
+      cursor: pointer;
+      color: lightgray;
+    }
+
+
   }
 `;
