@@ -26,10 +26,10 @@ export default function Post(post) {
       }
     });
     setLike(!like);
-    
+
   }
   return (
-    <PostContainer>
+    <PostContainer data-test="post">
       <InfoSection>
         <UserImg src={userImg} />
         <Likes>
@@ -38,10 +38,10 @@ export default function Post(post) {
         </Likes>
       </InfoSection>
       <ContentSection>
-        <Author>{username}</Author>
-        <Description>{description}</Description>
+        <Author data-test="username" >{username}</Author>
+        <Description data-test="description">{description}</Description>
         <a href={siteUrl} target="_blank" rel="noopener noreferrer">
-          <Content>
+          <Content data-test="link">
             <TextContent>
               <PostTitle>
                 {title}
