@@ -27,11 +27,11 @@ export default function Navbar() {
           onClick={toggleDropdown}
           name={!isDropdownOpen ? "chevron-down-outline" : "chevron-up-outline"}
         />
-        <UserImg src={userData.pictureUrl} />
+        <UserImg data-test="avatar" src={userData.pictureUrl} />
       </UserContainer>
       {isDropdownOpen && (
-        <Dropdown onClick={logout}>
-          <p>Log Out</p>
+        <Dropdown data-test="menu" >
+          <button onClick={logout} data-test="logout">Log Out</button>
         </Dropdown>
       )}
     </NavBarContainer>
@@ -99,7 +99,7 @@ const Dropdown = styled.div`
   align-items: center;
   justify-content: center;
 
-  p {
+  button {
     font-family: "Lato";
     font-style: normal;
     font-weight: 700;
@@ -107,7 +107,8 @@ const Dropdown = styled.div`
     line-height: 20px;
     letter-spacing: 0.05em;
     color: #ffffff;
-
+    background-color: #151515;
+    border: none;
     &:hover {
       cursor: pointer;
       color: lightgray;

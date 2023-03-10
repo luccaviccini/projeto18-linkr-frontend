@@ -23,9 +23,9 @@ export default function Navbar() {
       logando.then(respondeu);
       logando.catch(
         (response) =>
-        response === "AxiosError: Request failed with status code 401"
+        response == "AxiosError: Request failed with status code 401"
         ? (alert("email ou senha incorretos"), setLoading(false))
-        : response === "AxiosError: Request failed with status code 422"
+        : response == "AxiosError: Request failed with status code 422"
         ? (alert("Preencha todos os campos!"), setLoading(false))
         : ""
         );
