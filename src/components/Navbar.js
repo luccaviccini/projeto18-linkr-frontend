@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Searchbar from "./Searchbar";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import UserContext from "../context/UserContext";
@@ -20,6 +21,7 @@ export default function Navbar() {
   return (
     <NavBarContainer>
       <Title>linkr</Title>
+      <Searchbar/>
       <UserContainer>
         <ion-icon
           onClick={toggleDropdown}
