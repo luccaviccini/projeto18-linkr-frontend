@@ -60,27 +60,26 @@ const PostContainer = styled.div`
   border-radius: 16px;
   margin: 29px 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  padding-left:3%;
   @media (max-width: 937px) {
+    padding-left:0;
     border-radius: 0;
     justify-content: center;
   }
 `;
 
 const ContentSection = styled.div`
-  width: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
 `
 const LinkImage = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   img{
     width: 153.44px;
     height: 155px;
-    background: url(image.png);
     border-radius: 0px 12px 13px 0px;
   }
 `
@@ -136,6 +135,7 @@ const Description = styled.div`
 `;
 const Content = styled.div`
   display: flex;
+  justify-content: space-between;
   max-width: 503px;
   max-height: 155px;
   width: 100%;
@@ -143,10 +143,6 @@ const Content = styled.div`
   background: #171717;
   border: 1px solid #4D4D4D;
   border-radius: 11px;
-
-  @media (max-width: 937px) {
-    border-radius: 0;
-  }
 `;
 
 const PostTitle = styled.h1`

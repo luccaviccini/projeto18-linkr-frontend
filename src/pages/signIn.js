@@ -7,11 +7,10 @@ import UserContext from "../context/UserContext";
 import Loading from "../components/Loading";
 
 export default function Navbar() {
-  const { setUser } = useContext(UserContext);
+  const { updateUserData } = useContext(UserContext);
   const navigate = useNavigate();
   const [email, setemail] = useState("");
   const [senha, setsenha] = useState("");
-  const [info, setinfo] = useState(null);
   const [loading, setLoading] = useState(false);
 
   function logar() {
@@ -24,20 +23,20 @@ export default function Navbar() {
       logando.then(respondeu);
       logando.catch(
         (response) =>
-        response == "AxiosError: Request failed with status code 401"
+        response === "AxiosError: Request failed with status code 401"
         ? (alert("email ou senha incorretos"), setLoading(false))
-        : response == "AxiosError: Request failed with status code 422"
+        : response === "AxiosError: Request failed with status code 422"
         ? (alert("Preencha todos os campos!"), setLoading(false))
         : ""
         );
     } else {
-      alert("Preencha todos os campos !");
+      alert("Preencha todos os campos !", setLoading(false));
     }
   }
 
   function respondeu(response) {
-    localStorage.setItem("token", response.data);
-    setUser(response.data);
+   
+    updateUserData(response.data);
     navigate("/timeline");
     setLoading(false);
   }
@@ -69,7 +68,7 @@ export default function Navbar() {
         </Input>
         <Botao>
           <button disabled={loading} data-test="login-btn" onClick={logar}>
-            {loading ? <Loading /> : "Login"}
+            {loading ? <Loading /> : "Log In"}
           </button>
         </Botao>
         <Link data-test="sign-up-link" to="/sign-up">
