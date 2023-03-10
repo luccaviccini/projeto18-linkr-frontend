@@ -1,8 +1,12 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import UserContext from "../context/UserContext";
 
 export default function Navbar() {
+
+  const { userData } = useContext(UserContext);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
   function toggleDropdown() {
@@ -21,7 +25,7 @@ export default function Navbar() {
           onClick={toggleDropdown}
           name={!isDropdownOpen ? "chevron-down-outline" : "chevron-up-outline"}
         />
-        <UserImg src="https://www.w3schools.com/howto/img_avatar.png" />
+        <UserImg src={userData.pictureUrl} />
       </UserContainer>
       {isDropdownOpen && (
         <Dropdown onClick={logout}>

@@ -50,7 +50,7 @@ export default function NewPost() {
 
   return (
     <NewPostContainer>
-      <CurrentUserImg src="https://www.w3schools.com/howto/img_avatar.png" />
+      <CurrentUserImg src={userData.pictureUrl} />
       <RightSideContainer>
         <NewPostTitle>What are you going to share today?</NewPostTitle>
         <LinkInput
