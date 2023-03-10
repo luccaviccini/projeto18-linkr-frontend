@@ -53,10 +53,10 @@ the best links on the web</H2>
       </Title>
       <Sigin>
           <Input>
-            <input data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
+            <input type="email" data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
           </Input>
           <Input>
-            <input data-test="password" onChange={event => setsenha(event.target.value)} placeholder="password"></input>
+            <input type="password" data-test="password" onChange={event => setsenha(event.target.value)} placeholder="password"></input>
           </Input>
           <Botao>
             <button disabled={truefalse} data-test="login-btn" onClick={logar} >Log In</button>
