@@ -54,7 +54,8 @@ export default function BodyUserPage() {
         </Head> 
         {userDataBank.posts && userDataBank.posts.length === 0?<p>Nothing yet</p>: 
           userDataBank.posts.map((post, index) => (
-            <PostUserSearched 
+            <PostUserSearched
+              data-test="post" 
               author={userDataBank.username} // pass username as prop
               userImg={userDataBank.pictureUrl} 
               userId={id} 

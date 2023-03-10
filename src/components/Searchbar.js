@@ -75,6 +75,7 @@ export default function Searchbar(){
         <SearchContainer>
             <Search>
                 <DebounceInput
+                    data-test="search" 
                     minLength={3}
                     placeholder="Search for people..."
                     debounceTimeout={300}
@@ -86,7 +87,8 @@ export default function Searchbar(){
 				{searchResult.length === 0 ? (
 					<span>Sorry, there are no results for this search.</span>
 				) : (
-                    searchResult.map((e, index) => (<Results 
+                    searchResult.map((e, index) => (<Results
+                        data-test="user-search"  
                         name={e.username} 
                         imgProfile={e.pictureUrl} 
                         userId={e.id} 
