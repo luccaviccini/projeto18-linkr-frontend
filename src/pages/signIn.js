@@ -4,7 +4,7 @@ import { Link} from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
-
+//process.env.REACT_APP_API_URL
 
 export default function Navbar() {
   const { setUser } = useContext(UserContext);
@@ -14,10 +14,12 @@ export default function Navbar() {
   const[info,setinfo]=useState(null)
   const[truefalse,settruefalse]=useState(false)
 
+  const URL = "http://localhost:5000";
+
   function logar (){
     settruefalse(true)
     if(email !== "" && senha!==""){
-    const logando = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`,
+    const logando = axios.post(`${URL}/sign-in`,
     {
       email: email,
       password: senha

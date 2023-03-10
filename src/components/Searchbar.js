@@ -34,15 +34,18 @@ export default function Searchbar(){
     const [isSearching, setIsSearching] = useState(false);
     const [userSearched, setUserSearched] = useState('');
     const { User } = useContext(UserContext);
-    //const token = User.token;
+    const token = User.token;
+
+    console.log("Este é o token");
+    console.log(token);
 
     const URL = "http://localhost:5000";
 
-    /*const config = {
+    const config = {
         headers: {
             "Authorization": `Bearer ${token}`
         }
-    }*/
+    }
 
     function handleSearch(e) {
 		setUserSearched(e.target.value);
@@ -53,7 +56,7 @@ export default function Searchbar(){
 		if (userSearched.length >= 3) {
 
 
-            const promise = axios.get(`${URL}/users?value=${userSearched}`);
+            const promise = axios.get(`${URL}/users?value=${userSearched}`, config);
 			
 			promise
 				.then((res) => {

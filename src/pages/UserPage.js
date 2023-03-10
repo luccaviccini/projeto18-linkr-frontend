@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import Navbar from "../components/Navbar.js";
-import Body from "../components/Body.js";
+import BodyUserPage from "../components/BodyUserPage.js";
 
 export default function UserPage() {
   return (
     <Container>
       <Navbar />
-      <Body />
+      <BodyUserPage />
     </Container>
   );
 }
