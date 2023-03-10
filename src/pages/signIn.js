@@ -31,7 +31,7 @@ export default function Navbar() {
         : ""
         );
     } else {
-      alert("Preencha todos os campos !");
+      alert("Preencha todos os campos !", setLoading(false));
     }
   }
 
