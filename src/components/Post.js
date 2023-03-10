@@ -4,50 +4,60 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 
-export default function Post() {
+export default function Post(post) {
   const [like, setLike] = useState(false);
-  const [numLikePost, setNumLikePost] = useState(0);
   const { userData } = useContext(UserContext);
-
+  const { id,
+    username,
+    siteUrl,
+    title,
+    description,
+    userImg,
+    imageUrl,
+    likes,
+    lastTwoUsersLiked,
+    metaDescription } = post
   // Like dado?
-  async function darLike(){
+  async function darLike() {
+    // send a PUT request to update the like status on the server
+    await axios.post(`${process.env.REACT_APP_API_URL}/timeline/${id}`, {}, {
+      headers: {
+        Authorization: `Bearer ${userData.token}`
+      }
+    });
+    setLike(!like);
     
-
-    //await axios.put('', {header:{ Autorization: "Bearer "+tokenDoUsuario}})
-    //.catch((err) => {console.log(err)});
-    //await axios.get('') // pegar número de likes do post do servidor
-    //.then((response) => {setNumLikePost(response.data)}); //verificar qual Key para os valor de likes
-    setLike(!like)
   }
-
   return (
     <PostContainer>
       <InfoSection>
-        <UserImg src="https://www.w3schools.com/howto/img_avatar.png" />
+        <UserImg src={userImg} />
         <Likes>
-          {(!like) ? <AiOutlineHeart onClick={darLike}/> : <AiFillHeart style={{color:"red"}} onClick={darLike}/>}
-          {numLikePost}
+          {(!like) ? <AiOutlineHeart onClick={darLike} /> : <AiFillHeart style={{ color: "red" }} onClick={darLike} />}
+          {likes}
         </Likes>
       </InfoSection>
       <ContentSection>
-        <Author>Autor</Author>
-        <Description>Olha que legal</Description>
-        <Content>
-          <TextContent>
-            <PostTitle>
-              Title
-            </PostTitle>
-            <PostSummary>
-              TEXT TEXT TEXT TEXT TEXT TEXT
-            </PostSummary>
-            <PostLink>
-              https://www.youtube.com/watch?v=dQw4w9WgXcQ
-            </PostLink>
-          </TextContent>
-          <LinkImage>
-            <img src="https://www.w3schools.com/howto/img_avatar.png" />
-          </LinkImage>
-        </Content>
+        <Author>{username}</Author>
+        <Description>{description}</Description>
+        <a href={siteUrl} target="_blank" rel="noopener noreferrer">
+          <Content>
+            <TextContent>
+              <PostTitle>
+                {title}
+              </PostTitle>
+              <PostSummary>
+                {metaDescription}
+              </PostSummary>
+              <PostLink>
+                {siteUrl}
+              </PostLink>
+            </TextContent>
+            <LinkImage>
+              <img src={imageUrl} />
+            </LinkImage>
+          </Content>
+        </a>
       </ContentSection>
     </PostContainer>
   );
@@ -68,6 +78,9 @@ const PostContainer = styled.div`
     padding-left:0;
     border-radius: 0;
     justify-content: center;
+  }
+  a{
+    text-decoration: none;
   }
 `;
 
