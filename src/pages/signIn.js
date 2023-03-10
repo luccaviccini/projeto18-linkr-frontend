@@ -69,7 +69,7 @@ export default function Navbar() {
         </Input>
         <Botao>
           <button disabled={loading} data-test="login-btn" onClick={logar}>
-            {loading ? <Loading /> : "Login"}
+            {loading ? <Loading /> : "Log In"}
           </button>
         </Botao>
         <Link data-test="sign-up-link" to="/sign-up">
