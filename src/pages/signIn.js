@@ -35,7 +35,7 @@ export default function Navbar() {
   }
 
   function respondeu(response) {
-   
+    console.log("User Data", response.data)
     updateUserData(response.data);
     navigate("/timeline");
     setLoading(false);
