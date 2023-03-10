@@ -28,7 +28,7 @@ export default function NewPost() {
 
     axios
       .post(
-        "http://localhost:5000/timeline",
+        `${process.env.REACT_APP_API_URL}/timeline`,
         body,
         createConfig(userData.token)
       )
@@ -49,7 +49,7 @@ export default function NewPost() {
   }
 
   return (
-    <NewPostContainer>
+    <NewPostContainer data-test="publish-box">
       <CurrentUserImg src={userData.pictureUrl} />
       <RightSideContainer>
         <NewPostTitle>What are you going to share today?</NewPostTitle>
@@ -58,14 +58,16 @@ export default function NewPost() {
           type="text"
           value={link}
           onChange={(e) => setLink(e.target.value)}
+          data-test="link"
         />
         <CurrentUserComment
           value={comment}
           type="text"
           placeholder="Awesome article about #javascript"
           onChange={(e) => setComment(e.target.value)}
+          data-test="description"
         />
-        <SubmitButton onClick={() => handleSubmit()}>
+        <SubmitButton data-test="publish-btn" onClick={() => handleSubmit()}>
           {loading ? <Loading /> : "Publish"}
         </SubmitButton>
       </RightSideContainer>
