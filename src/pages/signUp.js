@@ -52,19 +52,19 @@ the best links on the web</H2>
       </Box>
       <Sigin>
           <Input>
-            <input data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
+            <input type="email" data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
           </Input>
           <Input>
-            <input data-test="password" onChange={event => setsenha(event.target.value)} placeholder="password"></input>
+            <input type="password" data-test="password" onChange={event => setsenha(event.target.value)} placeholder="password"></input>
           </Input>
           <Input>
             <input data-test="username" onChange={event => setusername(event.target.value)} placeholder="username"></input>
           </Input>
           <Input>
-            <input data-test="picture-url" onChange={event => setpictureurl(event.target.value)} placeholder="picture url"></input>
+            <input type="url" data-test="picture-url" onChange={event => setpictureurl(event.target.value)} placeholder="picture url"></input>
           </Input>
           <Botao>
-            <button data-test="sign-up-btn" onClick={Cadastrar}>Sign Up</button>
+            <button disabled={truefalse}  data-test="sign-up-btn" onClick={Cadastrar}>Sign Up</button>
           </Botao>
           <Link  data-test="login-link" to="/">
             <Cadastro>Switch back to log in</Cadastro>
