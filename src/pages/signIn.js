@@ -12,9 +12,11 @@ export default function Navbar() {
   const[email,setemail]=useState('')
   const[senha,setsenha]=useState('')
   const[info,setinfo]=useState(null)
+  const[truefalse,settruefalse]=useState(false)
 
   function logar (){
-  
+    settruefalse(true)
+    if(email !== "" && senha!==""){
     const logando = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`,
     {
       email: email,
@@ -25,14 +27,19 @@ export default function Navbar() {
     logando.catch((response)=>(response == "AxiosError: Request failed with status code 401")? alert("email ou senha incorretos"):(response == "AxiosError: Request failed with status code 422")?alert("Preencha todos os campos!"):"")
     
    
+  }else{
+    alert("Preencha todos os campos !")
+  }
   }
 
+
   function respondeu(response){
-    localStorage.setItem('token',response.data.token)
-    setUser(response.data.token)
+    localStorage.setItem('token',response.data)
+    setUser(response.data)
     navigate("/timeline")
-     
+     settruefalse(false)
   }
+  
  
 
   return (
@@ -46,13 +53,13 @@ the best links on the web</H2>
       </Title>
       <Sigin>
           <Input>
-            <input data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
+            <input type="email" data-test="email" onChange={event => setemail(event.target.value)} placeholder="e-mail"></input>
           </Input>
           <Input>
-            <input data-test="password" onChange={event => setsenha(event.target.value)} placeholder="password"></input>
+            <input type="password" data-test="password" onChange={event => setsenha(event.target.value)} placeholder="password"></input>
           </Input>
           <Botao>
-            <button data-test="login-btn" onClick={logar} >Log In</button>
+            <button disabled={truefalse} data-test="login-btn" onClick={logar} >Log In</button>
           </Botao>
           <Link  data-test="sign-up-link" to="/sign-up">
             <Cadastro>First time? Create an account!</Cadastro>
