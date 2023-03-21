@@ -30,6 +30,7 @@ export default function Body() {
       })
       .catch((error) => {
         console.log(error);
+        alert("An error occurred while trying to fetch the posts, please refresh the page");
       });
   }, [userData.token]);
 
