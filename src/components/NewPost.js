@@ -26,6 +26,12 @@ export default function NewPost() {
       "description": `${comment}`,
     };
 
+     if (link === "" ) {
+      alert("Please fill the link field");
+      setLoading(false);
+      return;
+    }
+
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/timeline`,
@@ -41,6 +47,7 @@ export default function NewPost() {
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        alert("There was an error publishing your link");
       });
 
     //consolelog
@@ -59,6 +66,7 @@ export default function NewPost() {
           value={link}
           onChange={(e) => setLink(e.target.value)}
           data-test="link"
+          required
         />
         <CurrentUserComment
           value={comment}
