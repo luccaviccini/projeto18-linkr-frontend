@@ -13,25 +13,26 @@ export default function Body() {
   const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
-    // get token from local storage
-    function createConfig(token) {
-      return {
-        headers: {
-          Authorization: `Bearer ${userData.token}`,
-        },
-      };
-    }
-
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/timeline`, createConfig(userData.token))
-      .then((response) => {
+    async function getTimeline(token) {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/timeline`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setPosts(response.data);
-        setLoading(false)
-      })
-      .catch((error) => {
+        setLoading(false);
+      } catch (error) {
         console.log(error);
-        alert("An error occurred while trying to fetch the posts, please refresh the page");
-      });
+        alert(
+          "An error occurred while trying to fetch the posts, please refresh the page"
+        );
+      }
+    }
+  
+    if (userData.token) {
+      getTimeline(userData.token);
+    }
   }, [userData.token]);
 
 
