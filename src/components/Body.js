@@ -61,7 +61,7 @@ export default function Body() {
             />
           )) :
           (<LoadingContainer>
-              <Loading/>
+              Loading <Loading/>
           </LoadingContainer>)
           
         }
@@ -94,6 +94,7 @@ const BodyContainer = styled.div`
   max-width: 937px;
   margin-top: 72px;
   padding-top: 53px;
+  padding-bottom: 70px;
   
 
     @media (max-width: 937px) {
@@ -121,10 +122,22 @@ const Left = styled.div`
 const LoadingContainer = styled.div`
   width: 100%;
   max-width: 611px;
-  height: 209px;
-  background: transparent;  
+  height: 200px;
+  background: lightgrey;  
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  border-radius: 16px;
+  column-gap: 24px;
+  font-family: "Lato";
+  font-style: bold;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #707070;
+  margin-bottom: 10px;
+
 
   @media (max-width: 937px) {
     border-radius: 0;
