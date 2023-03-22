@@ -96,6 +96,8 @@ const LinkImage = styled.div`
     width: 153.44px;
     height: 155px;
     border-radius: 0px 12px 13px 0px;
+    // fit to container whole image
+    object-fit: cover;    
   }
 `
 
