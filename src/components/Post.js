@@ -105,6 +105,10 @@ const TextContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  padding: 20px;
+ 
+  ;
+
 `
 const InfoSection = styled.div`
   display: flex;
