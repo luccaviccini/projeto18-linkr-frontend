@@ -18,20 +18,22 @@ export default function Navbar() {
     localStorage.removeItem("token");
     navigate("/")
   }
+
+  
   return (
     <NavBarContainer>
-      <Title>linkr</Title>
+      <Title onClick={ () => navigate("/timeline")}> linkr</Title>
       <Searchbar/>
       <UserContainer>
         <ion-icon
           onClick={toggleDropdown}
           name={!isDropdownOpen ? "chevron-down-outline" : "chevron-up-outline"}
         />
-        <UserImg src={userData.pictureUrl} />
+        <UserImg data-test="avatar" src={userData.pictureUrl} />
       </UserContainer>
       {isDropdownOpen && (
-        <Dropdown onClick={logout}>
-          <p>Log Out</p>
+        <Dropdown data-test="menu" >
+          <button onClick={logout} data-test="logout">Log Out</button>
         </Dropdown>
       )}
     </NavBarContainer>
@@ -54,7 +56,7 @@ const NavBarContainer = styled.div`
   
 `;
 
-const Title = styled.h1`
+const Title = styled.a`
   font-family: "Passion One";
   font-style: normal;
   font-weight: 700;
@@ -62,6 +64,10 @@ const Title = styled.h1`
   line-height: 50px;
   letter-spacing: 0.05em;
   color: #ffffff;
+
+  :hover{
+    cursor: pointer;
+  }
 `;
 
 const UserImg = styled.img`
@@ -99,7 +105,7 @@ const Dropdown = styled.div`
   align-items: center;
   justify-content: center;
 
-  p {
+  button {
     font-family: "Lato";
     font-style: normal;
     font-weight: 700;
@@ -107,7 +113,8 @@ const Dropdown = styled.div`
     line-height: 20px;
     letter-spacing: 0.05em;
     color: #ffffff;
-
+    background-color: #151515;
+    border: none;
     &:hover {
       cursor: pointer;
       color: lightgray;

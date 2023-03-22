@@ -111,14 +111,18 @@ const SearchContainer = styled.div`
     flex-direction: column;
     width: 560px;
     height: 45px;
-    background-color: #FFFFFF;
+    background-color: white;
     border-radius: 8px;
+    
+
 `;
 
 const Search = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 10px;
+
 
     input{
         width: 540px;
@@ -143,12 +147,15 @@ const Search = styled.div`
 const UsersContainer = styled.section`
 	display: ${(props) => (props.isSearching ? 'flex' : 'none')};
 	flex-direction: column;
+    
 	gap: 16px;
 	z-index: -1;
 	width: 100%;
 	height: auto;
-	padding: 60px 0 23px 0;
+	padding: 30px 0 23px 0;
 	background-color: #e7e7e7;
+    width: 560px;
+
 	border-radius: 8px;
 	span {
 		font-size: 20px;
@@ -160,7 +167,10 @@ const UsersContainer = styled.section`
 const Result = styled.div`
     display: flex;
     align-items: center;
+    
     height: 60px;
+    padding: 0 10px;
+    border-radius: 10px;
     img{
         height: 39px;
         width: 39px;   
@@ -172,5 +182,10 @@ const Result = styled.div`
         font-family: 'Lato';
         font-size:19px;
         line-height: 23px;
+    }
+
+    :hover{
+        cursor: pointer;
+        background-color: lightgray;
     }
     `;

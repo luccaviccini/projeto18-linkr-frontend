@@ -6,7 +6,8 @@ import UserContext from "../context/UserContext";
 
 export default function NewPost() {
   // get token from local storage
-  const { userData } = useContext(UserContext);
+  const { userData  } = useContext(UserContext);
+  const {updatePosts, setUpdatePosts} = useContext(UserContext);
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,9 +27,15 @@ export default function NewPost() {
       "description": `${comment}`,
     };
 
+     if (link === "" ) {
+      alert("Please fill the link field");
+      setLoading(false);
+      return;
+    }
+
     axios
       .post(
-        "http://localhost:5000/timeline",
+        `${process.env.REACT_APP_API_URL}/timeline`,
         body,
         createConfig(userData.token)
       )
@@ -37,10 +44,12 @@ export default function NewPost() {
         console.log(response);
         setLink("");
         setComment("");
+        setUpdatePosts(!updatePosts)
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        alert("There was an error publishing your link");
       });
 
     //consolelog
@@ -49,7 +58,7 @@ export default function NewPost() {
   }
 
   return (
-    <NewPostContainer>
+    <NewPostContainer data-test="publish-box">
       <CurrentUserImg src={userData.pictureUrl} />
       <RightSideContainer>
         <NewPostTitle>What are you going to share today?</NewPostTitle>
@@ -58,14 +67,19 @@ export default function NewPost() {
           type="text"
           value={link}
           onChange={(e) => setLink(e.target.value)}
+          disabled={loading}           
+          data-test="link"
+          required
         />
         <CurrentUserComment
           value={comment}
           type="text"
           placeholder="Awesome article about #javascript"
+          disabled={loading}
           onChange={(e) => setComment(e.target.value)}
+          data-test="description"
         />
-        <SubmitButton onClick={() => handleSubmit()}>
+        <SubmitButton data-test="publish-btn" loading = {loading} onClick={() => handleSubmit()}>
           {loading ? <Loading /> : "Publish"}
         </SubmitButton>
       </RightSideContainer>
@@ -189,7 +203,7 @@ const SubmitButton = styled.button`
   text-align: center;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.loading ? "not-allowed" : "pointer")};
     background-color: #0f5ed6;
   }
 `;
