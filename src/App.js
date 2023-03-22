@@ -18,6 +18,7 @@ function App() {
   }
 
   const [userData, setUserData] = useState(storedUserData);
+  const [updatePosts, setUpdatePosts] = useState(false);
 
   const updateUserData = (newUserData) => {
     localStorage.setItem('userData', JSON.stringify(newUserData));
@@ -27,7 +28,7 @@ function App() {
   console.log('userData', userData)
 
   return (
-    <UserContext.Provider value={{ userData, updateUserData }}>
+    <UserContext.Provider value={{ userData, updateUserData, updatePosts, setUpdatePosts }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />}></Route>

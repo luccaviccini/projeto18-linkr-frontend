@@ -6,7 +6,8 @@ import UserContext from "../context/UserContext";
 
 export default function NewPost() {
   // get token from local storage
-  const { userData } = useContext(UserContext);
+  const { userData  } = useContext(UserContext);
+  const {updatePosts, setUpdatePosts} = useContext(UserContext);
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,7 @@ export default function NewPost() {
         console.log(response);
         setLink("");
         setComment("");
+        setUpdatePosts(!updatePosts)
       })
       .catch((error) => {
         console.log(error);

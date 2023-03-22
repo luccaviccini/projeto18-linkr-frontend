@@ -8,12 +8,13 @@ import axios from "axios";
 import Loading from "./Loading.js";
 
 export default function Body() {
-  const { userData } = useContext(UserContext);
+  const { userData, updatePosts } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [ loading, setLoading ] = useState(true)
 
   useEffect(() => {
     async function getTimeline(token) {
+      setPosts([]);
       try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/timeline`, {
           headers: {
@@ -33,7 +34,7 @@ export default function Body() {
     if (userData.token) {
       getTimeline(userData.token);
     }
-  }, [userData.token]);
+  }, [userData.token, updatePosts]);
 
 
 
@@ -59,7 +60,10 @@ export default function Body() {
               metaDescription={post.metaDescription}
             />
           )) :
-          <Loading/>
+          (<LoadingContainer>
+              <Loading/>
+          </LoadingContainer>)
+          
         }
         
       </Left>
@@ -100,6 +104,9 @@ const BodyContainer = styled.div`
 const Left = styled.div`
   width: 100%;
   max-width: 611px; 
+  
+  
+
   h3{
     color: white;
     text-align: center;
@@ -109,4 +116,19 @@ const Left = styled.div`
     font-size: 40px;
     margin: 20px;
   }
+`;
+
+const LoadingContainer = styled.div`
+  width: 100%;
+  max-width: 611px;
+  height: 209px;
+  background: transparent;  
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 937px) {
+    border-radius: 0;
+    padding: 0 18px;
+  }
+
 `;
