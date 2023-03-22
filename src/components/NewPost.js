@@ -1,14 +1,75 @@
 import styled from "styled-components";
+import { useState, useContext } from "react";
+import axios from "axios";
+import Loading from "../components/Loading.js";
+import UserContext from "../context/UserContext";
 
 export default function NewPost() {
+  // get token from local storage
+  const { userData } = useContext(UserContext);
+  const [link, setLink] = useState("");
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  function handleSubmit() {
+    setLoading(true);
+    function createConfig(token) {
+      return {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    }
+
+    const body = {
+      "url": `${link}`,
+      "description": `${comment}`,
+    };
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/timeline`,
+        body,
+        createConfig(userData.token)
+      )
+      .then((response) => {
+        setLoading(false);
+        console.log(response);
+        setLink("");
+        setComment("");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+
+    //consolelog
+    console.log("aqui eh o body: ", body);
+    
+  }
+
   return (
-    <NewPostContainer>
-      <CurrentUserImg src="https://www.w3schools.com/howto/img_avatar.png" />
+    <NewPostContainer data-test="publish-box">
+      <CurrentUserImg src={userData.pictureUrl} />
       <RightSideContainer>
         <NewPostTitle>What are you going to share today?</NewPostTitle>
-        <LinkInput placeholder="http://" />
-        <CurrentUserComment placeholder="Awesome article about #javascript" />
-        <SubmitButton>Publish</SubmitButton>
+        <LinkInput
+          placeholder="http://"
+          type="text"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          data-test="link"
+        />
+        <CurrentUserComment
+          value={comment}
+          type="text"
+          placeholder="Awesome article about #javascript"
+          onChange={(e) => setComment(e.target.value)}
+          data-test="description"
+        />
+        <SubmitButton data-test="publish-btn" onClick={() => handleSubmit()}>
+          {loading ? <Loading /> : "Publish"}
+        </SubmitButton>
       </RightSideContainer>
     </NewPostContainer>
   );
@@ -35,9 +96,9 @@ const CurrentUserImg = styled.img`
   border-radius: 50%;
   margin: 16px 18px;
 
-    @media (max-width: 937px) {
+  @media (max-width: 937px) {
     display: none;
-    }
+  }
 `;
 
 const NewPostTitle = styled.p`
@@ -69,9 +130,6 @@ const LinkInput = styled.input`
     line-height: 18px;
     color: #949494;
   }
-
-    
-
 `;
 
 const CurrentUserComment = styled.input`
@@ -98,7 +156,6 @@ const CurrentUserComment = styled.input`
     color: #949494;
   }
 `;
-
 
 const RightSideContainer = styled.div`
   display: flex;
@@ -127,11 +184,14 @@ const SubmitButton = styled.button`
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
- 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
 
   &:hover {
     cursor: pointer;
     background-color: #0f5ed6;
-    }
+  }
 `;

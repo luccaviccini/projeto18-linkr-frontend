@@ -4,13 +4,13 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
 
-export default function Post() {
+export default function PostUserSearched({author, userImg, userId, key, description, postTitle, postSummary, linkImage, postLink}) {
   const [like, setLike] = useState(false);
   const [numLikePost, setNumLikePost] = useState(0);
-  const {User} = useContext(UserContext);
+  const {userData} = useContext(UserContext);
   // Like dado?
   async function darLike(){
-    const tokenDoUsuario = User.token;
+    //const tokenDoUsuario = User.token;
     //await axios.put('', {header:{ Autorization: "Bearer "+tokenDoUsuario}})
     //.catch((err) => {console.log(err)});
     //await axios.get('') // pegar número de likes do post do servidor
@@ -21,29 +21,29 @@ export default function Post() {
   return (
     <PostContainer>
       <InfoSection>
-        <UserImg src="https://www.w3schools.com/howto/img_avatar.png" />
+        <UserImg src={userImg} alt='profile'/>
         <Likes>
           {(!like) ? <AiOutlineHeart onClick={darLike}/> : <AiFillHeart style={{color:"red"}} onClick={darLike}/>}
           {numLikePost}
         </Likes>
       </InfoSection>
       <ContentSection>
-        <Author>Autor</Author>
-        <Description>Olha que legal</Description>
+        <Author>{author}</Author>
+        <Description>{description}</Description>
         <Content>
           <TextContent>
             <PostTitle>
-              Title
+              {postTitle}
             </PostTitle>
             <PostSummary>
-              TEXT TEXT TEXT TEXT TEXT TEXT
+              {postSummary}
             </PostSummary>
             <PostLink>
-              https://www.youtube.com/watch?v=dQw4w9WgXcQ
+              {postLink}
             </PostLink>
           </TextContent>
           <LinkImage>
-            <img src="https://www.w3schools.com/howto/img_avatar.png" />
+            <img src={linkImage} />
           </LinkImage>
         </Content>
       </ContentSection>
