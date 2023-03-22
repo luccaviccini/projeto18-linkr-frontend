@@ -65,6 +65,7 @@ export default function NewPost() {
           type="text"
           value={link}
           onChange={(e) => setLink(e.target.value)}
+          disabled={loading}           
           data-test="link"
           required
         />
@@ -72,10 +73,11 @@ export default function NewPost() {
           value={comment}
           type="text"
           placeholder="Awesome article about #javascript"
+          disabled={loading}
           onChange={(e) => setComment(e.target.value)}
           data-test="description"
         />
-        <SubmitButton data-test="publish-btn" onClick={() => handleSubmit()}>
+        <SubmitButton data-test="publish-btn" loading = {loading} onClick={() => handleSubmit()}>
           {loading ? <Loading /> : "Publish"}
         </SubmitButton>
       </RightSideContainer>
@@ -199,7 +201,7 @@ const SubmitButton = styled.button`
   text-align: center;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.loading ? "not-allowed" : "pointer")};
     background-color: #0f5ed6;
   }
 `;
