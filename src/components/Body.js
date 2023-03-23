@@ -49,6 +49,7 @@ export default function Body() {
             <Post
               key={post.id}
               id={post.id}
+              userId={post.userId}
               username={post.author}
               siteUrl={post.siteUrl}
               title={post.title}
