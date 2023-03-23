@@ -3,7 +3,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
-import "react-tooltip/dist/react-tooltip.css";  
+import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from 'react-tooltip'
 
 export default function Post(post) {
@@ -21,7 +21,6 @@ export default function Post(post) {
     lastTwoUsersLiked,
     usersLikes,
     metaDescription } = post
-  const [like, setLike] = useState(false);
   const [postLiked, setPostLiked] = useState(usersLikes.includes(user));
   // Like dado?  
   useEffect(() => {
@@ -39,8 +38,6 @@ export default function Post(post) {
       })
       .then(() => {
         setPostLiked(!postLiked)
-        let liked = !postLiked 
-        liked ? setLike(true) : setLike(false)
       })
       .catch((error) => {
         console.log(error);
@@ -59,11 +56,11 @@ export default function Post(post) {
           style={{ background: "rgba(255, 255, 255, 0.9)", color: "#000000" }}
         />
         <Likes data-tooltip-id="app-title">
-        
+
           {(!postLiked) ? <AiOutlineHeart onClick={darLike} /> : <AiFillHeart style={{ color: "red" }} onClick={darLike} />}
-          {postLiked ? likes+1 : likes}
+          {postLiked ? likes + 1 : likes}
         </Likes>
-        
+
 
       </InfoSection>
       <ContentSection>
