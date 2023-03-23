@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from 'react-tooltip'
 
 export default function Post(post) {
-  const [like, setLike] = useState(false);
+
   const { userData } = useContext(UserContext);
+  const user = userData.username
   const { id,
     username,
     siteUrl,
@@ -16,26 +19,49 @@ export default function Post(post) {
     imageUrl,
     likes,
     lastTwoUsersLiked,
+    usersLikes,
     metaDescription } = post
-  // Like dado?
-  async function darLike() {
-    // send a PUT request to update the like status on the server
-    await axios.post(`${process.env.REACT_APP_API_URL}/timeline/${id}`, {}, {
-      headers: {
-        Authorization: `Bearer ${userData.token}`
-      }
-    });
-    setLike(!like);
+  const [postLiked, setPostLiked] = useState(usersLikes.includes(user));
+  // Like dado?  
+  useEffect(() => {
+    setPostLiked(usersLikes.includes(user))
+    console.log(usersLikes.includes(user))
+  }, [likes])
 
+  async function darLike() {
+    // send a POST request to like the post on the server
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/timeline/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`
+        }
+      })
+      .then(() => {
+        setPostLiked(!postLiked)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
+
+  console.log(lastTwoUsersLiked)
   return (
     <PostContainer data-test="post">
       <InfoSection>
         <UserImg src={userImg} />
-        <Likes>
-          {(!like) ? <AiOutlineHeart onClick={darLike} /> : <AiFillHeart style={{ color: "red" }} onClick={darLike} />}
-          {likes}
+        <Tooltip
+          id="app-title"
+          place="bottom"
+          content={likes >= 3 ? `${lastTwoUsersLiked} e outras ${likes - 2} pessoas` : `${lastTwoUsersLiked}`}
+          style={{ background: "rgba(255, 255, 255, 0.9)", color: "#000000" }}
+        />
+        <Likes data-tooltip-id="app-title">
+
+          {(!postLiked) ? <AiOutlineHeart onClick={darLike} /> : <AiFillHeart style={{ color: "red" }} onClick={darLike} />}
+          {postLiked ? likes + 1 : likes}
         </Likes>
+
+
       </InfoSection>
       <ContentSection>
         <Author data-test="username" >{username}</Author>
@@ -144,6 +170,9 @@ const Likes = styled.div`
   align-items: center;
   margin:10px;
   color: #ffffff;
+  :hover{
+    cursor: pointer;
+  }
 `;
 const Description = styled.div`
   font-family: "Lato";
