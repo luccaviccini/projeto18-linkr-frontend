@@ -54,6 +54,7 @@ export default function Body() {
               imageUrl={post.imageUrl}
               likes={post.likes}
               lastTwoUsersLiked={post.users}
+              usersLikes={post.postLiked}
               metaDescription={post.metaDescription}
             />
           )) :
