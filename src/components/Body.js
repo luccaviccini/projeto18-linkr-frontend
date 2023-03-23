@@ -42,12 +42,12 @@ export default function Body() {
     <BodyContainer>
       <Left>
         <Title>timeline</Title>
-        <NewPost />
+        <NewPost setPosts={setPosts}/>
         {!posts ? <h3>"There are no posts yet"</h3> : 
         posts.length > 0 ?
           posts.map((post) => (
             <Post
-            atualiza={atualiza}
+            setPosts={setPosts}
               key={post.id}
               id={post.id}
               username={post.author}

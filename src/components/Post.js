@@ -4,14 +4,13 @@ import { TiPencil } from "react-icons/ti";
 import { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext";
-import Modal from "styled-react-modal";
-
+import Moodal from "./Modal/modal.js";
 export default function Post(post) {
 
   const [edit, setEdit] = useState(post.text)
   const [clicado, setClicado] = useState(false);
   const [desabilitado, setDesabilitado] = useState(false);
-  const [IsOpen, setIsOpen] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [like, setLike] = useState(false);
   const { userData } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -25,10 +24,11 @@ export default function Post(post) {
     likes,
     lastTwoUsersLiked,
     metaDescription } = post
+
   // Like dado?
   async function darLike() {
     // send a PUT request to update the like status on the server
-    await axios.post(`${process.env.REACT_APP_API_URL}/timeline/${id}`, {}, {
+    await axios.post(`${process.env.REACT_APP_API_URL}/timeline/${post.id}`, {}, {
       headers: {
         Authorization: `Bearer ${userData.token}`
       }
@@ -37,16 +37,35 @@ export default function Post(post) {
 
   }
   function toggleModal(e) {
-    setIsOpen(!IsOpen)
+    setShowDeleteModal(!showDeleteModal)
 }
-function deletePublish() {
+function createConfig(token) {
+  return {
+    headers: {
+      Authorization: `Bearer ${userData.token}`,
+    },
+  };
+}
+async function deletePublish() {
     setLoading(true)
-    const requisicao = axios.delete(`${process.env.REACT_APP_API_URL}/publish/${post.post_id}`, { headers: { 'Authorization': `Bearer ${userData.token}` } });
-    requisicao.then((res) => { setLoading(false); setIsOpen(!IsOpen); post.atualiza() });
-    requisicao.catch((res) => { alert(res.response.data); setIsOpen(!IsOpen); });
+    const requisicao = axios.delete(`${process.env.REACT_APP_API_URL}/timeline/${post.id}`, { headers: { 'Authorization': `Bearer ${userData.token}` } });
+    requisicao.then((res) => { setLoading(false); setShowDeleteModal(!showDeleteModal); post.atualiza() });
+    requisicao.catch((res) => { alert(res.response.data); setShowDeleteModal(!showDeleteModal); });
+
+    await axios
+    .get(`${process.env.REACT_APP_API_URL}/timeline`, createConfig(userData.token))
+    .then((response) => {
+      post.setPosts(response.data);
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 if(username === userData.username){
   return (
+    <>
+   
     <PostContainer data-test="post">
       <InfoSection>
         <UserImg src={userImg} />
@@ -60,12 +79,12 @@ if(username === userData.username){
         <Author data-test="username" >{username}</Author>
         <div>
             <TiPencilStyled onClick={() => { setDesabilitado(false); setClicado(!clicado); setEdit(post.text) }} data-test="edit-btn" />
-            <AiFillDeleteStyled onClick={() => setIsOpen(!IsOpen)} data-test="delete-btn" />
+            <AiFillDeleteStyled onClick={() => setShowDeleteModal(!showDeleteModal)} data-test="delete-btn" />
         </div>
         </TopContent>
         
         <Description data-test="description">{description}</Description>
-        <a href={siteUrl} target="_blank" rel="noopener noreferrer">
+        <a href={siteUrl} target="_blank" rel="showDeleteModaler noreferrer">
           <Content data-test="link">
             <TextContent>
               <PostTitle>
@@ -84,10 +103,10 @@ if(username === userData.username){
           </Content>
         </a>
       </ContentSection>
-      <StyledModal
-                isOpen={IsOpen}
-                onBackgroundClick={toggleModal}
-                onEscapeKeydown={toggleModal}>
+      </PostContainer>
+      {
+        showDeleteModal &&
+        <Moodal showDeleteModal={showDeleteModal} >
                 <Loading loading={loading}>Loading...</Loading>
                 <ModalContainer loading={loading}>
                     <TitleModal>Are you sure you want<br />to delete this post?</TitleModal>
@@ -97,8 +116,11 @@ if(username === userData.username){
                     </div>
                 </ModalContainer>
 
-            </StyledModal>
-    </PostContainer>
+            </Moodal>
+    
+      }
+      
+    </>
   );
 } else{
   return (
@@ -113,7 +135,7 @@ if(username === userData.username){
       <ContentSection>
         <Author data-test="username" >{username}</Author>
         <Description data-test="description">{description}</Description>
-        <a href={siteUrl} target="_blank" rel="noopener noreferrer">
+        <a href={siteUrl} target="_blank" rel="showDeleteModaler noreferrer">
           <Content data-test="link">
             <TextContent>
               <PostTitle>
@@ -179,21 +201,6 @@ const TitleModal = styled.span`
     color: #FFFFFF;
     margin-bottom: 40px;
 `;
-
-const StyledModal = Modal.styled`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 597px;
-  height: 262px;
-  background-color: #333333;
-  border-radius: 50px;
-
-`
-
- 
-
 
 
 

@@ -4,14 +4,22 @@ import axios from "axios";
 import Loading from "../components/Loading.js";
 import UserContext from "../context/UserContext";
 
-export default function NewPost() {
+export default function NewPost(post) {
   // get token from local storage
   const { userData } = useContext(UserContext);
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit() {
+  function createConfig(token) {
+    return {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    };
+  }
+
+  async function handleSubmit() {
     setLoading(true);
     function createConfig(token) {
       return {
@@ -45,6 +53,16 @@ export default function NewPost() {
 
     //consolelog
     console.log("aqui eh o body: ", body);
+
+    await axios
+    .get(`${process.env.REACT_APP_API_URL}/timeline`, createConfig(userData.token))
+    .then((response) => {
+      post.setPosts(response.data);
+      
+    })
+    .catch((error) => {
+      console.log(error);
+    });
     
   }
 
