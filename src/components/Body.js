@@ -4,6 +4,7 @@ import NewPost from "./NewPost.js";
 import Trending from "./Trending.js"
 import { useEffect, useState, useContext } from "react";
 import UserContext from "../context/UserContext.js";
+import Searchbar from "./Searchbar";
 import axios from "axios";
 import Loading from "./Loading.js";
 
@@ -41,6 +42,9 @@ export default function Body() {
   return (
     <BodyContainer>
       <Left>
+      <SearchContainer>
+         <Searchbar/>
+      </SearchContainer>
         <Title>timeline</Title>
         <NewPost />
         {!posts ? <h3>"There are no posts yet"</h3> : 
@@ -146,4 +150,10 @@ const LoadingContainer = styled.div`
     padding: 0 18px;
   }
 
+`;
+
+const SearchContainer = styled.div`
+@media (min-width: 480px) {
+          display: none;
+        }
 `;

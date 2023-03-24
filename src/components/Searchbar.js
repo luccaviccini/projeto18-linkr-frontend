@@ -113,7 +113,15 @@ const SearchContainer = styled.div`
     height: 45px;
     background-color: white;
     border-radius: 8px;
-    
+
+    @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  @media screen and (min-width: 2000px) {
+    width: calc(100% - 64px); /* subtract the total padding of 32px on both sides */
+    max-width: 560px;
+  }
 
 `;
 
@@ -125,7 +133,9 @@ const Search = styled.div`
 
 
     input{
-        width: 540px;
+        width: 100%;
+        /*width: 540px;*/
+        width: 100%;
         height: 45px;
         background-color: #FFFFFF;
         border: none;

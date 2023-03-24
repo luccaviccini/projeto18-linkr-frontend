@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState, useContext } from "react";
 import UserContext from "../context/UserContext";
 import PostUserSearched from "./PostsUserPage";
+import Searchbar from "./Searchbar";
 import Trending from "./Trending.js";
 import Loading from "./Loading.js";
 
@@ -55,11 +56,14 @@ export default function BodyUserPage() {
   return (
     <BodyContainer>
       <Left>
+      <SearchContainer>
+         <Searchbar/>
+      </SearchContainer>
       <Head>
-      { userPageInfo && userPageInfo.postauthor && userPageInfo.postpictureurl ? (
+      { userPageInfo && userPageInfo[0].postauthor && userPageInfo[0].postpictureurl ? (
             <div>
-              <img src={userPageInfo.postpictureurl} alt='perfil'></img>
-              <h1>{userPageInfo.postauthor}'s posts</h1>
+              <img src={userPageInfo[0].postpictureurl} alt='perfil'></img>
+              <h1>{userPageInfo[0].postauthor}'s posts</h1>
             </div>
           ) : (
             <h1>Loading</h1>
@@ -79,6 +83,7 @@ export default function BodyUserPage() {
               imageUrl={post.imageUrl}
               likes={post.likes}
               lastTwoUsersLiked={post.users}
+              usersLikes={post.postLiked}
               metaDescription={post.metaDescription}
             />
           )) :
@@ -198,4 +203,10 @@ const Head = styled.div`
     @media (max-width: 937px) {
         padding-left: 20px;
     }
+`;
+
+const SearchContainer = styled.div`
+@media (min-width: 480px) {
+          display: none;
+        }
 `;
