@@ -1,51 +1,89 @@
 import styled from "styled-components";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 import UserContext from "../context/UserContext";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from 'react-tooltip'
 
-export default function PostUserSearched({author, userImg, userId, key, description, postTitle, postSummary, linkImage, postLink}) {
-  const [like, setLike] = useState(false);
-  const [numLikePost, setNumLikePost] = useState(0);
-  const {userData} = useContext(UserContext);
-  // Like dado?
-  async function darLike(){
-    //const tokenDoUsuario = User.token;
-    //await axios.put('', {header:{ Autorization: "Bearer "+tokenDoUsuario}})
-    //.catch((err) => {console.log(err)});
-    //await axios.get('') // pegar número de likes do post do servidor
-    //.then((response) => {setNumLikePost(response.data)}); //verificar qual Key para os valor de likes
-    setLike(!like)
+
+export default function PostUserSearched(post) {
+ 
+  const { userData } = useContext(UserContext);
+  const user = userData.username;
+  const { id,
+    username,
+    siteUrl,
+    title,
+    description,
+    userImg,
+    imageUrl,
+    likes,
+    lastTwoUsersLiked,
+    usersLikes,
+    metaDescription } = post
+
+    const [postLiked, setPostLiked] = useState(usersLikes.includes(user));
+  // Like dado?  
+  useEffect(() => {
+    setPostLiked(usersLikes.includes(user))
+    console.log(usersLikes.includes(user))
+  }, [likes])
+
+  async function darLike() {
+    // send a POST request to like the post on the server
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/timeline/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`
+        }
+      })
+      .then(() => {
+        setPostLiked(!postLiked)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
-    <PostContainer>
+    <PostContainer data-test="post">
       <InfoSection>
-        <UserImg src={userImg} alt='profile'/>
-        <Likes>
-          {(!like) ? <AiOutlineHeart onClick={darLike}/> : <AiFillHeart style={{color:"red"}} onClick={darLike}/>}
-          {numLikePost}
+        <UserImg src={userImg} />
+        <Tooltip
+          id="app-title"
+          place="bottom"
+          content={likes >= 3 ? `${lastTwoUsersLiked} e outras ${likes - 2} pessoas` : `${lastTwoUsersLiked}`}
+          style={{ background: "rgba(255, 255, 255, 0.9)", color: "#000000" }}
+        />
+        <Likes data-tooltip-id="app-title">
+
+          {(!postLiked) ? <AiOutlineHeart onClick={darLike} /> : <AiFillHeart style={{ color: "red" }} onClick={darLike} />}
+          {postLiked ? likes + 1 : likes}
         </Likes>
       </InfoSection>
       <ContentSection>
-        <Author>{author}</Author>
-        <Description>{description}</Description>
-        <Content>
-          <TextContent>
-            <PostTitle>
-              {postTitle}
-            </PostTitle>
-            <PostSummary>
-              {postSummary}
-            </PostSummary>
-            <PostLink>
-              {postLink}
-            </PostLink>
-          </TextContent>
-          <LinkImage>
-            <img src={linkImage} />
-          </LinkImage>
-        </Content>
+        <Author data-test="username" >{username}</Author>
+        <Description data-test="description">{description}</Description>
+        <a href={siteUrl} target="_blank" rel="noopener noreferrer">
+          <Content data-test="link">
+            <TextContent>
+              <PostTitle>
+                {title}
+              </PostTitle>
+              <PostSummary>
+                {metaDescription}
+              </PostSummary>
+              <PostLink>
+                {siteUrl}
+              </PostLink>
+            </TextContent>
+            <LinkImage>
+              <img src={imageUrl} />
+            </LinkImage>
+          </Content>
+        </a>
       </ContentSection>
     </PostContainer>
   );
@@ -60,28 +98,32 @@ const PostContainer = styled.div`
   border-radius: 16px;
   margin: 29px 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  padding-left:3%;
   @media (max-width: 937px) {
+    padding-left:0;
     border-radius: 0;
     justify-content: center;
+  }
+  a{
+    text-decoration: none;
   }
 `;
 
 const ContentSection = styled.div`
-  width: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
 `
 const LinkImage = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   img{
     width: 153.44px;
     height: 155px;
-    background: url(image.png);
     border-radius: 0px 12px 13px 0px;
+    // fit to container whole image
+    object-fit: cover;    
   }
 `
 
@@ -89,6 +131,10 @@ const TextContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  padding: 20px;
+ 
+  ;
+
 `
 const InfoSection = styled.div`
   display: flex;
@@ -124,6 +170,9 @@ const Likes = styled.div`
   align-items: center;
   margin:10px;
   color: #ffffff;
+  :hover{
+    cursor: pointer;
+  }
 `;
 const Description = styled.div`
   font-family: "Lato";
@@ -136,6 +185,7 @@ const Description = styled.div`
 `;
 const Content = styled.div`
   display: flex;
+  justify-content: space-between;
   max-width: 503px;
   max-height: 155px;
   width: 100%;
@@ -143,10 +193,6 @@ const Content = styled.div`
   background: #171717;
   border: 1px solid #4D4D4D;
   border-radius: 11px;
-
-  @media (max-width: 937px) {
-    border-radius: 0;
-  }
 `;
 
 const PostTitle = styled.h1`

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 import UserContext from "../context/UserContext";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from 'react-tooltip'
@@ -11,6 +12,7 @@ export default function Post(post) {
   const { userData } = useContext(UserContext);
   const user = userData.username
   const { id,
+    userId,
     username,
     siteUrl,
     title,
@@ -44,6 +46,14 @@ export default function Post(post) {
       });
   }
 
+  const navigate = useNavigate();
+
+  function goToProfile(id) {
+
+    navigate(`/user/${id}`);
+    
+  }
+
   console.log(lastTwoUsersLiked)
   return (
     <PostContainer data-test="post">
@@ -64,7 +74,7 @@ export default function Post(post) {
 
       </InfoSection>
       <ContentSection>
-        <Author data-test="username" >{username}</Author>
+        <Author data-test="username" onClick={() => goToProfile(userId)}>{username}</Author>
         <Description data-test="description">{description}</Description>
         <a href={siteUrl} target="_blank" rel="noopener noreferrer">
           <Content data-test="link">
@@ -157,6 +167,10 @@ const Author = styled.div`
   line-height: 24px;
 
   color: #fff;
+
+  :hover{
+    cursor: pointer;
+  }
 `;
 const Likes = styled.div`
   font-family: "Lato";

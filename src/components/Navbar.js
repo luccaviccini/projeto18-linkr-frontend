@@ -23,7 +23,9 @@ export default function Navbar() {
   return (
     <NavBarContainer>
       <Title onClick={ () => navigate("/timeline")}> linkr</Title>
-      <Searchbar/>
+      <SearchContainer>
+         <Searchbar/>
+      </SearchContainer>
       <UserContainer>
         <ion-icon
           onClick={toggleDropdown}
@@ -122,4 +124,10 @@ const Dropdown = styled.div`
 
 
   }
+`;
+
+const SearchContainer = styled.div`
+@media (max-width: 480px) {
+          display: none;
+        }
 `;
