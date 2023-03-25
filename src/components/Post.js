@@ -93,7 +93,7 @@ export default function Post(post) {
           <ReactTagify
             tagStyle={tagStyle}
             mentionStyle={mentionStyle}
-            tagClicked={(tag) => alert(tag)}>
+            tagClicked={(tag) => navigate(`/hashtag/${tag.slice(1)}`)}>
             <p>
               {description}
             </p>
