@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import UserContext from "../context/UserContext";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from 'react-tooltip'
+import { ReactTagify } from "react-tagify";
 
 export default function Post(post) {
 
@@ -46,12 +47,25 @@ export default function Post(post) {
       });
   }
 
+
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  };
+
+  const mentionStyle = {
+    color: 'green',
+    textDecoration: 'underline',
+    cursor: 'pointer'
+  }
+
   const navigate = useNavigate();
 
   function goToProfile(id) {
 
     navigate(`/user/${id}`);
-    
+
   }
 
   console.log(lastTwoUsersLiked)
@@ -75,7 +89,16 @@ export default function Post(post) {
       </InfoSection>
       <ContentSection>
         <Author data-test="username" onClick={() => goToProfile(userId)}>{username}</Author>
-        <Description data-test="description">{description}</Description>
+        <Description data-test="description">
+          <ReactTagify
+            tagStyle={tagStyle}
+            mentionStyle={mentionStyle}
+            tagClicked={(tag) => alert(tag)}>
+            <p>
+              {description}
+            </p>
+          </ReactTagify>
+        </Description>
         <a href={siteUrl} target="_blank" rel="noopener noreferrer">
           <Content data-test="link">
             <TextContent>
@@ -142,8 +165,6 @@ const TextContent = styled.div`
   flex-direction: column;
   justify-content: space-around;
   padding: 20px;
- 
-  ;
 
 `
 const InfoSection = styled.div`

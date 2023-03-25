@@ -5,6 +5,7 @@ import SignIn from "./pages/signIn.js";
 import SignUp from "./pages/signUp.js";
 import { useState } from "react";
 import UserPage from "./pages/UserPage";
+import HashtagPage from "./pages/HashtagPage";
 
 
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />}></Route>
           <Route path="/timeline" element={<Home />} />
           <Route path="/user/:id" element={<UserPage />} />
+          <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
