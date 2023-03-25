@@ -18,10 +18,14 @@ export default function Navbar() {
     localStorage.removeItem("token");
     navigate("/")
   }
+
+  
   return (
     <NavBarContainer>
-      <Title>linkr</Title>
-      <Searchbar/>
+      <Title onClick={ () => navigate("/timeline")}> linkr</Title>
+      <SearchContainer>
+         <Searchbar/>
+      </SearchContainer>
       <UserContainer>
         <ion-icon
           onClick={toggleDropdown}
@@ -54,7 +58,7 @@ const NavBarContainer = styled.div`
   
 `;
 
-const Title = styled.h1`
+const Title = styled.a`
   font-family: "Passion One";
   font-style: normal;
   font-weight: 700;
@@ -62,6 +66,10 @@ const Title = styled.h1`
   line-height: 50px;
   letter-spacing: 0.05em;
   color: #ffffff;
+
+  :hover{
+    cursor: pointer;
+  }
 `;
 
 const UserImg = styled.img`
@@ -116,4 +124,10 @@ const Dropdown = styled.div`
 
 
   }
+`;
+
+const SearchContainer = styled.div`
+@media (max-width: 480px) {
+          display: none;
+        }
 `;

@@ -75,6 +75,7 @@ export default function Searchbar(){
         <SearchContainer>
             <Search>
                 <DebounceInput
+                    data-test="search" 
                     minLength={3}
                     placeholder="Search for people..."
                     debounceTimeout={300}
@@ -86,7 +87,8 @@ export default function Searchbar(){
 				{searchResult.length === 0 ? (
 					<span>Sorry, there are no results for this search.</span>
 				) : (
-                    searchResult.map((e, index) => (<Results 
+                    searchResult.map((e, index) => (<Results
+                        data-test="user-search"  
                         name={e.username} 
                         imgProfile={e.pictureUrl} 
                         userId={e.id} 
@@ -109,17 +111,31 @@ const SearchContainer = styled.div`
     flex-direction: column;
     width: 560px;
     height: 45px;
-    background-color: #FFFFFF;
+    background-color: white;
     border-radius: 8px;
+
+    @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  @media screen and (min-width: 2000px) {
+    width: calc(100% - 64px); /* subtract the total padding of 32px on both sides */
+    max-width: 560px;
+  }
+
 `;
 
 const Search = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 10px;
+
 
     input{
-        width: 540px;
+        width: 100%;
+        /*width: 540px;*/
+        width: 100%;
         height: 45px;
         background-color: #FFFFFF;
         border: none;
@@ -141,12 +157,15 @@ const Search = styled.div`
 const UsersContainer = styled.section`
 	display: ${(props) => (props.isSearching ? 'flex' : 'none')};
 	flex-direction: column;
+    
 	gap: 16px;
 	z-index: -1;
 	width: 100%;
 	height: auto;
-	padding: 60px 0 23px 0;
+	padding: 30px 0 23px 0;
 	background-color: #e7e7e7;
+    width: 560px;
+
 	border-radius: 8px;
 	span {
 		font-size: 20px;
@@ -158,7 +177,10 @@ const UsersContainer = styled.section`
 const Result = styled.div`
     display: flex;
     align-items: center;
+    
     height: 60px;
+    padding: 0 10px;
+    border-radius: 10px;
     img{
         height: 39px;
         width: 39px;   
@@ -170,5 +192,10 @@ const Result = styled.div`
         font-family: 'Lato';
         font-size:19px;
         line-height: 23px;
+    }
+
+    :hover{
+        cursor: pointer;
+        background-color: lightgray;
     }
     `;

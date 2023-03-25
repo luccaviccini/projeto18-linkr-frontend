@@ -7,12 +7,12 @@ import UserContext from "../context/UserContext";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from 'react-tooltip'
 
-export default function Post(post) {
 
+export default function PostUserSearched(post) {
+ 
   const { userData } = useContext(UserContext);
-  const user = userData.username
+  const user = userData.username;
   const { id,
-    userId,
     username,
     siteUrl,
     title,
@@ -23,7 +23,8 @@ export default function Post(post) {
     lastTwoUsersLiked,
     usersLikes,
     metaDescription } = post
-  const [postLiked, setPostLiked] = useState(usersLikes.includes(user));
+
+    const [postLiked, setPostLiked] = useState(usersLikes.includes(user));
   // Like dado?  
   useEffect(() => {
     setPostLiked(usersLikes.includes(user))
@@ -46,15 +47,6 @@ export default function Post(post) {
       });
   }
 
-  const navigate = useNavigate();
-
-  function goToProfile(id) {
-
-    navigate(`/user/${id}`);
-    
-  }
-
-  console.log(lastTwoUsersLiked)
   return (
     <PostContainer data-test="post">
       <InfoSection>
@@ -70,11 +62,9 @@ export default function Post(post) {
           {(!postLiked) ? <AiOutlineHeart onClick={darLike} /> : <AiFillHeart style={{ color: "red" }} onClick={darLike} />}
           {postLiked ? likes + 1 : likes}
         </Likes>
-
-
       </InfoSection>
       <ContentSection>
-        <Author data-test="username" onClick={() => goToProfile(userId)}>{username}</Author>
+        <Author data-test="username" >{username}</Author>
         <Description data-test="description">{description}</Description>
         <a href={siteUrl} target="_blank" rel="noopener noreferrer">
           <Content data-test="link">
@@ -167,10 +157,6 @@ const Author = styled.div`
   line-height: 24px;
 
   color: #fff;
-
-  :hover{
-    cursor: pointer;
-  }
 `;
 const Likes = styled.div`
   font-family: "Lato";

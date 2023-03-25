@@ -4,22 +4,15 @@ import axios from "axios";
 import Loading from "../components/Loading.js";
 import UserContext from "../context/UserContext";
 
-export default function NewPost(post) {
+export default function NewPost() {
   // get token from local storage
-  const { userData } = useContext(UserContext);
+  const { userData  } = useContext(UserContext);
+  const {updatePosts, setUpdatePosts} = useContext(UserContext);
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function createConfig(token) {
-    return {
-      headers: {
-        Authorization: `Bearer ${userData.token}`,
-      },
-    };
-  }
-
-  async function handleSubmit() {
+  function handleSubmit() {
     setLoading(true);
     function createConfig(token) {
       return {
@@ -34,6 +27,12 @@ export default function NewPost(post) {
       "description": `${comment}`,
     };
 
+     if (link === "" ) {
+      alert("Please fill the link field");
+      setLoading(false);
+      return;
+    }
+
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/timeline`,
@@ -45,24 +44,16 @@ export default function NewPost(post) {
         console.log(response);
         setLink("");
         setComment("");
+        setUpdatePosts(!updatePosts)
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        alert("There was an error publishing your link");
       });
 
     //consolelog
     console.log("aqui eh o body: ", body);
-
-    await axios
-    .get(`${process.env.REACT_APP_API_URL}/timeline`, createConfig(userData.token))
-    .then((response) => {
-      post.setPosts(response.data);
-      
-    })
-    .catch((error) => {
-      console.log(error);
-    });
     
   }
 
@@ -76,16 +67,19 @@ export default function NewPost(post) {
           type="text"
           value={link}
           onChange={(e) => setLink(e.target.value)}
+          disabled={loading}           
           data-test="link"
+          required
         />
         <CurrentUserComment
           value={comment}
           type="text"
           placeholder="Awesome article about #javascript"
+          disabled={loading}
           onChange={(e) => setComment(e.target.value)}
           data-test="description"
         />
-        <SubmitButton data-test="publish-btn" onClick={() => handleSubmit()}>
+        <SubmitButton data-test="publish-btn" loading = {loading} onClick={() => handleSubmit()}>
           {loading ? <Loading /> : "Publish"}
         </SubmitButton>
       </RightSideContainer>
@@ -209,7 +203,7 @@ const SubmitButton = styled.button`
   text-align: center;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${(props) => (props.loading ? "not-allowed" : "pointer")};
     background-color: #0f5ed6;
   }
 `;
