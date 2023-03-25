@@ -9,6 +9,7 @@ import { Tooltip } from 'react-tooltip';
 import Moodal from "./Modal/modal.js";
 import { TiPencil } from "react-icons/ti";
 
+
 export default function Post(post) {
   const {updatePosts, setUpdatePosts} = useContext(UserContext);
   const [loading, setLoading] = useState(false);
@@ -50,6 +51,19 @@ export default function Post(post) {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  };
+
+  const mentionStyle = {
+    color: 'green',
+    textDecoration: 'underline',
+    cursor: 'pointer'
   }
 
   const navigate = useNavigate();
@@ -113,7 +127,7 @@ function handleSubmit() {
   function goToProfile(id) {
 
     navigate(`/user/${id}`);
-    
+
   }
 
   console.log(lastTwoUsersLiked)
@@ -175,6 +189,7 @@ function handleSubmit() {
           onChange={(e) => setComment(e.target.value)}
           data-test="description"
         />
+
        
   
     </NewPostContainer>
@@ -251,6 +266,7 @@ function handleSubmit() {
     );
   }
   
+
 }
 const Loading = styled.div`
     display: ${props => props.loading ? "flex" : "none"};
@@ -368,8 +384,6 @@ const TextContent = styled.div`
   flex-direction: column;
   justify-content: space-around;
   padding: 20px;
- 
-  ;
 
 `
 const InfoSection = styled.div`
