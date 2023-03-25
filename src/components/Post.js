@@ -5,6 +5,7 @@ import axios from "axios";
 import UserContext from "../context/UserContext";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from 'react-tooltip'
+import { ReactTagify } from "react-tagify";
 
 export default function Post(post) {
 
@@ -44,6 +45,18 @@ export default function Post(post) {
       });
   }
 
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  };
+
+  const mentionStyle = {
+    color: 'green',
+    textDecoration: 'underline',
+    cursor: 'pointer'
+  }
+
   console.log(lastTwoUsersLiked)
   return (
     <PostContainer data-test="post">
@@ -65,7 +78,18 @@ export default function Post(post) {
       </InfoSection>
       <ContentSection>
         <Author data-test="username" >{username}</Author>
-        <Description data-test="description">{description}</Description>
+        <Description data-test="description">
+
+          <ReactTagify
+            tagStyle={tagStyle}
+            mentionStyle={mentionStyle}
+            tagClicked={(tag) => alert(tag)}>
+            <p>
+              {description}
+            </p>
+          </ReactTagify>
+
+        </Description>
         <a href={siteUrl} target="_blank" rel="noopener noreferrer">
           <Content data-test="link">
             <TextContent>
