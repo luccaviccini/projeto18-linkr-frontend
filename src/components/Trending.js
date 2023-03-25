@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import UserContext from "../context/UserContext.js"
+import { useNavigate } from "react-router";
 
 export default function HashtagBox() {
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     const { userData } = useContext(UserContext);
     const token = userData.token;
@@ -32,7 +34,9 @@ export default function HashtagBox() {
             <Title>trending</Title>
             <Diviser />
             {data?.map((hashtag, i) => (
-                <StyledLink data-test="hashtag" key={i} to={`/hashtag/${hashtag}`}># {hashtag}</StyledLink>
+                <StyledLink data-test="hashtag" key={i} onClick={() => navigate(`/hashtag/${hashtag}`)}>
+                    # {hashtag}
+                </StyledLink>
             ))}
         </Box>
     );
@@ -70,4 +74,8 @@ export const StyledLink = styled.a`
   font-family: 'Lato', sans-serif;
   font-weight: 700;
   display: flex;
+  :hover{
+    cursor: pointer;
+    transform: scale(102%);
+  }
 `
