@@ -170,7 +170,7 @@ function handleSubmit() {
         <CurrentUserComment
           value={comment}
           type="text"
-          placeholder="Awesome article about #javascript"
+          placeholder="Your new description"
           disabled={loading}
           onChange={(e) => setComment(e.target.value)}
           data-test="description"
@@ -179,8 +179,8 @@ function handleSubmit() {
   
     </NewPostContainer>
                       <div>
-                          <ButtonCancel onClick={toggleModal2} data-test="cancel">Cancel</ButtonCancel>
-                          <ButtonConfirm  onClick={() => handleSubmit()} data-test="confirm">Confirm Edit</ButtonConfirm >
+                          <button  onClick={toggleModal2} data-test="cancel">Cancel</button >
+                          <button  onClick={() => handleSubmit()} data-test="confirm">Confirm Edit</button  >
                       </div>
                   </ModalContainer>
   
@@ -194,8 +194,8 @@ function handleSubmit() {
                   <ModalContainer loading={loading}>
                       <TitleModal>Are you sure you want<br />to delete this post?</TitleModal>
                       <div>
-                          <ButtonCancel onClick={toggleModal} data-test="cancel">No, go back</ButtonCancel>
-                          <ButtonConfirm onClick={deletePublish} data-test="confirm">Yes, delete it</ButtonConfirm>
+                          <button onClick={toggleModal} data-test="cancel">No, go back</button >
+                          <button onClick={deletePublish} data-test="confirm">Yes, delete it</button >
                       </div>
                   </ModalContainer>
   
@@ -266,6 +266,7 @@ const ModalContainer = styled.div`
     display: ${props => !props.loading ? "flex" : "none"};
     flex-direction: column;
     align-items: center;
+  
 `;
 
 const TopContent= styled.div`
@@ -284,36 +285,6 @@ const TiPencilStyled = styled(TiPencil)`
     color: white;
 `;
 
-const ButtonCancel = styled.button`
-    width: 134px;
-    height: 37px;
-    background-color: #FFFFFF;
-    border-radius: 5px;
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 22px;
-    color: #1877F2;
-    margin-right: 15px;
-    border: none;
-`;
-
-const ButtonConfirm = styled.button`
-     width: 134px;
-    height: 37px;
-    background-color: #FFFFFF;
-    border-radius: 5px;
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 22px;
-    color: #1877F2;
-    margin-right: 15px;
-    border: none;
-`;
-
 const TitleModal = styled.span`
     font-family: 'Lato';
     font-style: normal;
@@ -321,7 +292,7 @@ const TitleModal = styled.span`
     font-size: 34px;
     line-height: 41px;
     text-align: center;
-    color: #FFFFFF;
+    color: black;
     margin-bottom: 40px;
 `;
 
@@ -485,36 +456,6 @@ justify-content: center;
 
 
 
-const NewPostTitle = styled.p`
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 24px;
-  color: #707070;
-  margin-bottom: 10px;
-`;
-
-const LinkInput = styled.input`
-  width: 100%;
-  max-width: 503px;
-  height: 30px;
-  margin-bottom: 5px;
-  background: #efefef;
-  border-radius: 5px;
-  border: none;
-  padding-left: 10px;
-
-  &::placeholder {
-    margin: 0;
-    font-family: "Lato";
-    font-style: normal;
-    font-weight: 300;
-    font-size: 15px;
-    line-height: 18px;
-    color: #949494;
-  }
-`;
 
 const CurrentUserComment = styled.input`
   width: 100%;
@@ -541,42 +482,5 @@ const CurrentUserComment = styled.input`
   }
 `;
 
-const RightSideContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-`;
 
-const SubmitButton = styled.button`
-  width: 112px;
-  height: 31px;
-  background: #1877f2;
-  border-radius: 5px;
-  position: absolute;
-  bottom: 0px;
-  right: 12px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 17px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  text-align: center;
-
-  &:hover {
-    cursor: ${(props) => (props.loading ? "not-allowed" : "pointer")};
-    background-color: #0f5ed6;
-  }
-`;
