@@ -11,7 +11,8 @@ import Loading from "./Loading.js";
 export default function Body() {
   const { userData, updatePosts } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const [ loading, setLoading ] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [postLiked, setPostLiked] = useState(false);
 
   useEffect(() => {
     async function getTimeline(token) {
@@ -31,47 +32,64 @@ export default function Body() {
         );
       }
     }
-  
+
     if (userData.token) {
       getTimeline(userData.token);
     }
   }, [userData.token, updatePosts]);
 
+  function darLike(id, postLiked) {
+    // send a POST request to like the post on the server
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/timeline/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${userData.token}`
+        }
+      })
+      .then(() => {
 
+        setPostLiked(!postLiked)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <BodyContainer>
       <Left>
-      <SearchContainer>
-         <Searchbar/>
-      </SearchContainer>
+        <SearchContainer>
+          <Searchbar />
+        </SearchContainer>
         <Title>timeline</Title>
         <NewPost />
-        {!posts ? <h3>"There are no posts yet"</h3> : 
-        posts.length > 0 ?
-          posts.map((post) => (
-            <Post
-              key={post.id}
-              id={post.id}
-              userId={post.userId}
-              username={post.author}
-              siteUrl={post.siteUrl}
-              title={post.title}
-              description={post.description}
-              userImg={post.pictureUrl}
-              imageUrl={post.imageUrl}
-              likes={post.likes}
-              lastTwoUsersLiked={post.users}
-              usersLikes={post.postLiked}
-              metaDescription={post.metaDescription}
-            />
-          )) :
-          (<LoadingContainer>
-              Loading <Loading/>
-          </LoadingContainer>)
-          
+        {!posts ? <h3>"There are no posts yet"</h3> :
+          posts.length > 0 ?
+            posts.map((post) => (
+              <Post
+                key={post.id}
+                id={post.id}
+                userId={post.userId}
+                username={post.author}
+                siteUrl={post.siteUrl}
+                title={post.title}
+                description={post.description}
+                userImg={post.pictureUrl}
+                imageUrl={post.imageUrl}
+                likes={post.likes}
+                lastTwoUsersLiked={post.users}
+                usersLikes={post.postLiked}
+                metaDescription={post.metaDescription}
+                darLike={darLike}
+                postLiked={post.postLiked}
+              />
+            )) :
+            (<LoadingContainer>
+              Loading <Loading />
+            </LoadingContainer>)
+
         }
-        
+
       </Left>
       <Trending />
     </BodyContainer>

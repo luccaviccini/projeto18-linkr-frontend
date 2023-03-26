@@ -8,6 +8,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from 'react-tooltip';
 import Moodal from "./Modal/modal.js";
 import { TiPencil } from "react-icons/ti";
+import { ReactTagify } from "react-tagify";
 
 
 export default function Post(post) {
@@ -153,7 +154,16 @@ function handleSubmit() {
           </div>
           </TopContent>
           
-          <Description data-test="description">{description}</Description>
+          <Description data-test="description">
+          <ReactTagify
+            tagStyle={tagStyle}
+            mentionStyle={mentionStyle}
+            tagClicked={(tag) => alert(tag)}>
+            <p>
+              {description}
+            </p>
+          </ReactTagify>
+        </Description>
           <a href={siteUrl} target="_blank" rel="showDeleteModaler noreferrer">
             <Content data-test="link">
               <TextContent>
