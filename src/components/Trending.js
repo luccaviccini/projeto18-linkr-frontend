@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 export default function HashtagBox() {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
-
+    const {updatePosts, setUpdatePosts} = useContext(UserContext);
     const { userData } = useContext(UserContext);
     const token = userData.token;
 
@@ -27,7 +27,7 @@ export default function HashtagBox() {
             .catch((err) => {
                 console.log(err.response.message);
             });
-    }, [token]);
+    }, [token, updatePosts]);
 
     return (
         <Box data-test="trending">
