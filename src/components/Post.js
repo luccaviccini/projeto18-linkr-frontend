@@ -323,6 +323,8 @@ const PostContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   padding-left:3%;
+  padding : 3% 0 3% 3%;
+  
   @media (max-width: 937px) {
     padding-left:0;
     border-radius: 0;
@@ -338,6 +340,7 @@ const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+ 
 
 `
 const LinkImage = styled.div`
@@ -418,6 +421,7 @@ const Content = styled.div`
   background: #171717;
   border: 1px solid #4D4D4D;
   border-radius: 11px;
+  margin-top: 15px;
 `;
 
 const PostTitle = styled.h1`
