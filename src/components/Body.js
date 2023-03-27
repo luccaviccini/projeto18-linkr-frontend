@@ -7,23 +7,45 @@ import UserContext from "../context/UserContext.js";
 import Searchbar from "./Searchbar";
 import axios from "axios";
 import Loading from "./Loading.js";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useCallback } from "react";
+import LoadMore from "./LoadMore.js";
+import useInterval from "use-interval";
 
 export default function Body() {
   const { userData, updatePosts } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const [ loading, setLoading ] = useState(true)
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [n, setN] = useState(0);
+  
+
+
 
   useEffect(() => {
-    async function getTimeline(token) {
-      setPosts([]);
+    async function getTimeline(token, page) {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/timeline`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setPosts(response.data);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/timeline?page=${page}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
         setLoading(false);
+  
+        if (page === 1) {
+          setPosts(response.data);
+        } else {
+          setPosts((prevPosts) => [...prevPosts, ...response.data]);
+        }
+  
+        if (response.data.length < 10) { // update hasMore state if less than 10 posts are returned
+          setHasMore(false);
+        }
       } catch (error) {
         console.log(error);
         alert(
@@ -33,50 +55,106 @@ export default function Body() {
     }
   
     if (userData.token) {
-      getTimeline(userData.token);
+      getTimeline(userData.token, page);
     }
-  }, [userData.token, updatePosts]);
+  }, [userData.token, page]);
+  
+
+
+  const loadMorePosts = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handleClick = () => {
+    // reload screen
+    window.location.reload();
+  };
+
+  async function fetchNewPost() {
+    const lastPostId = posts[0].id;
+    console.log(lastPostId);
+    try{
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/timeline`,
+        {
+          headers: {
+            Authorization: `Bearer ${userData.token}`,
+          },
+        }
+      );
+      
+      const newPosts = response.data.filter((post) => post.id > lastPostId);
+      console.log("newPosts")
+      console.log(newPosts);
+      if(newPosts.length > 0){
+        setN(newPosts.length);
+      }
+    }
+
+    catch (error) {
+      console.log(error);
+      alert(
+        "An error occurred while trying to fetch the posts, please refresh the page"
+      );
+    }
+    
+    
+  }
+
+  useInterval (fetchNewPost, 5000);
 
 
 
   return (
     <BodyContainer>
       <Left>
-      <SearchContainer>
-         <Searchbar/>
-      </SearchContainer>
+        <SearchContainer>
+          <Searchbar />
+        </SearchContainer>
         <Title>timeline</Title>
         <NewPost />
-        {!posts ? <h3>"There are no posts yet"</h3> : 
-        posts.length > 0 ?
-          posts.map((post) => (
-            <Post
-              key={post.id}
-              id={post.id}
-              userId={post.userId}
-              username={post.author}
-              siteUrl={post.siteUrl}
-              title={post.title}
-              description={post.description}
-              userImg={post.pictureUrl}
-              imageUrl={post.imageUrl}
-              likes={post.likes}
-              lastTwoUsersLiked={post.users}
-              usersLikes={post.postLiked}
-              metaDescription={post.metaDescription}
-            />
-          )) :
-          (<LoadingContainer>
-              Loading <Loading/>
-          </LoadingContainer>)
-          
-        }
-        
+        {n > 0 && <LoadMore n={n} handleClick={handleClick} />}
+        {!posts.length && !loading ? (
+          <h3>"There are no posts yet"</h3>
+        ) : (
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={loadMorePosts}
+            hasMore={hasMore}
+            loader={
+              <LoadingContainer>
+                Loading <Loading />
+              </LoadingContainer>
+            }
+            endMessage={<LoadingContainer>
+              No more posts
+            </LoadingContainer>}
+          >
+            {posts.map((post) => (
+              <Post
+                key={post.id}
+                id={post.id}
+                userId={post.userId}
+                username={post.author}
+                siteUrl={post.siteUrl}
+                title={post.title}
+                description={post.description}
+                userImg={post.pictureUrl}
+                imageUrl={post.imageUrl}
+                likes={post.likes}
+                lastTwoUsersLiked={post.users}
+                usersLikes={post.postLiked}
+                metaDescription={post.metaDescription}
+              />
+            ))}
+          </InfiniteScroll>
+        )}
       </Left>
       <Trending />
     </BodyContainer>
   );
 }
+
 
 const Title = styled.h1`
   font-family: "Oswald";
@@ -92,7 +170,7 @@ const Title = styled.h1`
     }
 `;
 const BodyContainer = styled.div`
-    
+  
   display: flex;
   justify-content: space-between;
   margin:  auto;
