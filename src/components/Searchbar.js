@@ -36,7 +36,6 @@ export default function Searchbar(){
     const { userData } = useContext(UserContext);
     const token = userData.token;
 
-    const URL = "http://localhost:5000";
 
     const config = {
         headers: {
@@ -53,7 +52,7 @@ export default function Searchbar(){
 		if (userSearched.length >= 3) {
 
 
-            const promise = axios.get(`${URL}/users?value=${userSearched}`, config);
+            const promise = axios.get(`${process.env.REACT_APP_API_URL}/users?value=${userSearched}`, config);
 			
 			promise
 				.then((res) => {

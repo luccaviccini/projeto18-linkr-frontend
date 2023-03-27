@@ -8,6 +8,7 @@ import PostUserSearched from "./PostsUserPage";
 import Searchbar from "./Searchbar";
 import Trending from "./Trending.js";
 import Loading from "./Loading.js";
+import FollowButton from "./FollowButton.js";
 
 export default function BodyUserPage() {
   const { userData, updatePosts } = useContext(UserContext);
@@ -94,6 +95,11 @@ export default function BodyUserPage() {
         }
         
       </Left>
+      <div>
+      { userData.userLoggedId != id ? 
+        <FollowButton followedId={id}/> : 
+        <></>}
+      </div>
       <Trending />
     </BodyContainer>
   );
