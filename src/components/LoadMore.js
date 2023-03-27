@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 function LoadMore(props) {
-  return <Button onClick={props.handleClick}> {props.n} new posts, load more!</Button>;
+  return <Button data-test="load-btn" onClick={props.handleClick}> {props.n} new posts, load more!</Button>;
 }
 
 export default LoadMore;

@@ -37,7 +37,7 @@ const Wrapper = styled.div`
     padding: 50px 0;
     width: 600px;
     margin: auto;
-    background: var(--light-black);
+    background: #333333;
     border-radius: 50px;
     transition: 0.1s all;
     transform-origin: center;
@@ -90,7 +90,8 @@ const Wrapper = styled.div`
                 }
             }            
             button:nth-child(2) {
-                background: var(--regular-blue);
+                background: #1877F2;
+                border-radius: 5px;
                 color: #FFF;
                 &:hover {
                     background: var(--strong-blue);    
