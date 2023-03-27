@@ -187,7 +187,7 @@ export default function Post(post) {
           clicado &&
           <Moodal clicado={clicado} >
 
-            <ModalContainer loading={loading}>
+            <ModalContainer >
               <TitleModal>Post Edit</TitleModal>
               <NewPostContainer data-test="publish-box">
                 <CurrentUserComment
@@ -214,7 +214,6 @@ export default function Post(post) {
         {
           showDeleteModal &&
           <Moodal showDeleteModal={showDeleteModal} >
-            <Loading loading={loading}>Loading...</Loading>
             <ModalContainer loading={loading}>
               <TitleModal>Are you sure you want<br />to delete this post?</TitleModal>
               <div>
@@ -291,7 +290,6 @@ const ModalContainer = styled.div`
     display: ${props => !props.loading ? "flex" : "none"};
     flex-direction: column;
     align-items: center;
-  
 `;
 
 const TopContent = styled.div`
@@ -319,13 +317,14 @@ const TitleModal = styled.span`
     text-align: center;
     color: black;
     margin-bottom: 40px;
+    color:#FFF;
 `;
 
 const PostContainer = styled.div`
   width: 100%;
   height: 100%;
   max-width: 611px;
-  max-height: 276px;
+  max-height:   px;
   background: #171717;
   border-radius: 16px;
   margin: 29px 0;
@@ -349,7 +348,9 @@ const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
- 
+  @media (max-width: 937px) {
+    padding-right: 20px;
+  }
 
 `
 const LinkImage = styled.div`
@@ -451,7 +452,14 @@ const PostSummary = styled.div`
   line-height: 24px;
   font-size: 11px;
   color: #9B9595;
-`;
+  @media (max-width: 937px) {
+    /* display: none; */
+    font-size: 9px;
+  }
+  @media (max-width: 500px) {
+     display: none; 
+  }`
+;
 const PostLink = styled.div`
   font-family: "Lato";
   font-style: normal;
@@ -508,6 +516,3 @@ const CurrentUserComment = styled.input`
     color: #949494;
   }
 `;
-
-
-
